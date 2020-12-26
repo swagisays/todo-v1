@@ -39,5 +39,5 @@ app.get("/", function(req, res) {
   res.render("list",{day:Day});
 })
 app.listen(1705, function() {
-  console.log("server is up and running");
+  console.log("server is running on port 1705");
 })
