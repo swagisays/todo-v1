@@ -16,7 +16,7 @@ app.get("/", function(req, res) {
     day: "numeric",
     month: "long",
   }
-  var today = day.toLocaleDateString("hi-IN", options);
+  var today = day.toLocaleDateString("en-US", options);
 
   res.render("list", {
     kindOfDay: today,
