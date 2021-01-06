@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
+  background: linear-gradient(242.94deg, #FFFFFF 1.22%, rgba(255, 255, 255, 0) 99.33%), #B4CDFF;
+}
+.header-img{
+  position: absolute;
+  right: 50px;
+  width: 45%;
+  height: 100vh;
+}
+
+.todo-inbox {
+  position: absolute;
+  top: 30%;
+  left: 100px;
+  height: 50vh;
+  width: 500px;
+  background-color: white;
+  border-radius: 20px;
+}
+.date {
+    text-align: center;    
+    font-size: 32px;
+    margin-top: 24px;
+    font-weight: 500;
+}

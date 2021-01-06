@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <header>
+      <div class="todo-inbox">
+        <h2 class="date"><%=kindOfDay%></h2>
+        <ul>
+
+          <% for (var i = 0; i < item.length; i++) { %>
+            <li><%=item[i]%></li>
+        <%  } %>
+        <% if(i==0){ %>
+          <p>looks like you don't have anything to do</p>
+      <%  } %>
+
+        </ul>
+        <form action="/" method="post">
+          <input type="text" name="newItem">
+          <button type="submit">add</button>
+        </form>
+      </div>
+        <img class="header-img" src="img/main_Img.svg" alt="todo list">
+
+    </header>
+
+
+  </body>
+</html>
