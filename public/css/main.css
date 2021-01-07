@@ -1,45 +1,98 @@
-* {
+* { /*removeing default margin & padding*/
   margin: 0;
   padding: 0;
 }
 
 header {
-  overflow: hidden;
-  height: 100vh;
-  position: relative;
-  background: linear-gradient(242.94deg, #FFFFFF 1.22%, rgba(255, 255, 255, 0) 99.33%), #B4CDFF;
+  overflow: hidden; /* scroll block*/
+  height: 100vh;/* full screen height*/
+  position: relative; /* relative positionto fit everything */
+  background: linear-gradient(242.94deg, #FFFFFF 1.22%, rgba(255, 255, 255, 0) 99.33%), #B4CDFF; /* applying backgroud linear gradiant white and sky */
 }
 
-.header-img {
-  position: absolute;
-  right: 50px;
-  width: 45%;
-  height: 100vh;
+.header-img {  /* header img */
+  position: absolute; /* position img with refrance to header*/
+  right: 50px; /* shift 50 px from right */
+  width: 45%; /* width of 45%*/
+  height: 100vh;/* taking full page height*/
 }
 
-.todo-inbox {
-  position: absolute;
-  top: 30%;
-  left: 100px;
-  height: 55vh;
-  width: 450px;
-  background-color: #f4f9fc;
-  border-radius: 3px;
-  box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.25);
+.todo-inbox {/* todo list inbox*/
+  position: absolute;/* position refrance to header*/
+  top: 30%;/* shifting 30% from top*/
+  left: 100px;/* shifting 100px from left*/
+  height: 55vh;/* appling height of 55 view port*/
+  width: 450px;/* giving width of 450 pixel*/
+  background-color: #f4f9fc;/* a light blue backgroud color #f4f9fc*/
+  border-radius: 3px;/* giveing 3px border radius*/
+  box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.25);/* applying box shadow*/
 }
 
-.date{
-  text-align: center;
-  background-color: #ffe3e3;
-  padding: 10px;
-  border-radius:3px 3px 0 0;
-  font-size: 32px;
-  font-weight: 500;
+.date{/* date coloum in todo inbox*/
+  text-align: center;/* align date to center*/
+  background-color: #ffe3e3;/* giving light pink background color*/
+  padding: 10px;/* make box big via 10px padding*/
+  border-radius:3px 3px 0 0;/* applying 3px border radius to top corners*/
+  font-size: 32px;/* giving font size of 32 pixels*/
+  font-weight: 500;/* making font thin via weight of 500*/
+  word-spacing: 3px;/* 3px spacing b/w words*/
+  letter-spacing: 2px;/* 2px spacing b/w letters*/
 }
 
-input[type=text], input[type=text]:focus {
-  /* width: 100%; */
-  outline: none;
-  border: none;
-  border-bottom: 2px solid red;
+input[type=text]{/* input text box*/
+      position: absolute;/* position with todo inbox*/
+      left: 50px;/* shifting 50px left*/
+      bottom: 30px;/* shifting 30 px from bottom*/
+      border: none;/* removing border*/
+      background-color: #f4f9fc;/* light blue bg color*/
+      border-bottom: 2px solid #374b73;/* giving bottom border color */
+      width: 273px;/* giving 273 px width*/
+      height: 55px;/* giving 55px height */
+      font-size: 20px;/* font size of 20 px*/
+      font-family: sans-serif;/* appling sens-serif font*/
+     font-weight: 200;/* font weight of 200 to make it lighter*/
+     text-align: center;/* align text to center*/
+
+}
+input[type="text"]:focus {/* style whent inbox selected*/
+  outline: none;/* removing default outline*/
+  box-shadow: inset 0 -3px 0 0 #374b73;/* make bottom line thin*/
+}
+
+::placeholder {/* placeholder style in inbox*/
+  color: grey;/* giving grey color to text*/
+  opacity: 1;/* mke text lighter*/
+}
+.add-btn{/* submit button style*/
+  position: absolute;/* position it with respext to todo inbox*/
+  right: 50px;/* shifting right 50px*/
+  bottom: 25px;/* shifting bottom 25 px*/
+  min-height: 50px;/* applying min height of 50px*/
+  width: 50px;/* width of 50 px*/
+  border-radius: 50%;/* making it round*/
+  background-color: #374b73;/* giving blue bg color */
+  color: #fff;/* applying text color to white*/
+  border-width: 0;/* removeing border width*/
+}
+/* .list-Item{
+
+} */
+.empty-todo{/* styling when their is no item in todo list*/
+  position: absolute;/* position it with respect to todo inbox*/
+  right: 50px;/* shifting right 50px*/
+  top:70px;/* shifting top 70px*/
+}
+.no-item-img{/* img style when list is empty*/
+  width: 370px;/* applying widht 370px to fill the div*/
+  height: 30vh;/* applying height 30 vh to fill div*/
+}
+.no-item-pera{/* text style when list is empty*/
+  text-align: center;/* align text to center*/
+  margin-top: 10px;/* shift 10 px from top*/
+  font-family: sans-serif;/* appling sens serif font*/
+  font-weight: 400;/* font weight 400 to make it light*/
+  line-height: 10px;/* line height 10px to enlarge it*/
+  word-spacing: 2px;/* giving 2px space b/w words*/
+  letter-spacing: 1px;/* giving 1px space b/w letters*/
+ font-size: 20px;/* applying font size of 20px*/
 }

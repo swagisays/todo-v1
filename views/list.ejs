@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Todo List</title>
-    <link rel="stylesheet" href="css/main.css">
-  </head>
-  <body>
-    <header>
 
-      <div class="todo-inbox">
-        <h2 class="date"><%=kindOfDay%></h2>
+<head>
+  <meta charset="utf-8">
+  <title>Todo List</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
 
+<body>
+  <header>
+    <div class="todo-inbox"> <!--making to list box -->
+      <h2 class="date"><%=kindOfDay%></h2><!--get date from local -->
+      <div class="list-item"><!--making todo list item -->
         <ul>
-
-          <% for (var i = 0; i < item.length; i++) { %>
-            <li><%=item[i]%></li>
-        <%  } %>
-        <% if(i==0){ %>
-          <p>looks like you don't have anything to do</p>
-      <%  } %>
-
+          <% for (var i = 0; i < item.length; i++) { %> <!-- looping to create new item -->
+          <li><%=item[i]%></li><!-- storing item while looping-->
+          <%  } %>
         </ul>
-        <form action="/" method="post">
-          <input type="text" name="newItem">
-          <button type="submit">add</button>
-        </form>
+        <% if(i==0){ %> <!--condition if list is empty-->
+          <div class="empty-todo"><!--div fro empty loop message-->
+            <img class="no-item-img" src="img/nothing.svg" alt="no work"><!--vector img for empty list-->
+          <p class="no-item-pera">looks like you have nothing To-Do</p><!--empty list text-->
+          </div>
+        <%  } %> <!--ejs module end-->
       </div>
-        <img class="header-img" src="img/main_Img.svg" alt="todo list">
 
-    </header>
+      <form action="/" method="post" autocomplete="off"> <!-- get input from user-->
+        <input type="text" name="newItem" placeholder="Add New Item"> <!--input box to-do-->
+        <button class="add-btn" type="submit">+</button><!--submit button-->
+      </form>
+    </div>
+    <img class="header-img" src="img/main_Img.svg" alt="todo list"><!--header img -->
+
+  </header><!--header close-->
 
 
-  </body>
+</body>
+
 </html>
