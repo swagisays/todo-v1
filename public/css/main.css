@@ -73,6 +73,7 @@ input[type="text"]:focus {/* style whent inbox selected*/
   background-color: #374b73;/* giving blue bg color */
   color: #fff;/* applying text color to white*/
   border-width: 0;/* removeing border width*/
+  font-size: 30px;/* add font size to make + big*/
 }
 /* .list-Item{
 

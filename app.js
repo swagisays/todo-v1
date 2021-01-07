@@ -10,7 +10,7 @@ app.set('view engine', 'ejs');// setting up ejs module
 var items = [];// arrey to store todo list items
 
 
-app.get("/", function(res) {// geting req to rout route
+app.get("/", function(req,res) {// geting req to rout route
   const day = new Date();// useing jave to display local date
   const options = {//seting up date schema
     weekday: "long",//weekday as full String
