@@ -9,7 +9,8 @@ header {
   position: relative;
   background: linear-gradient(242.94deg, #FFFFFF 1.22%, rgba(255, 255, 255, 0) 99.33%), #B4CDFF;
 }
-.header-img{
+
+.header-img {
   position: absolute;
   right: 50px;
   width: 45%;
@@ -20,14 +21,25 @@ header {
   position: absolute;
   top: 30%;
   left: 100px;
-  height: 50vh;
-  width: 500px;
-  background-color: white;
-  border-radius: 20px;
+  height: 55vh;
+  width: 450px;
+  background-color: #f4f9fc;
+  border-radius: 3px;
+  box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.25);
 }
-.date {
-    text-align: center;    
-    font-size: 32px;
-    margin-top: 24px;
-    font-weight: 500;
+
+.date{
+  text-align: center;
+  background-color: #ffe3e3;
+  padding: 10px;
+  border-radius:3px 3px 0 0;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+input[type=text], input[type=text]:focus {
+  /* width: 100%; */
+  outline: none;
+  border: none;
+  border-bottom: 2px solid red;
 }
