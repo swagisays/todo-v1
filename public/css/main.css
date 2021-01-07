@@ -9,6 +9,16 @@ header {
   position: relative; /* relative positionto fit everything */
   background: linear-gradient(242.94deg, #FFFFFF 1.22%, rgba(255, 255, 255, 0) 99.33%), #B4CDFF; /* applying backgroud linear gradiant white and sky */
 }
+.logo{/* Logo of webpage*/
+  font-family: 'Cabin Sketch', cursive; /* add font family cabin sketch to logo*/
+    font-size: 100px;/* making it big in font size 100px*/
+    font-weight: 700;/* weight 700 make it more thin*/
+    display: inline-block;/* to display it as a block*/
+    position: absolute;/* position respect to header*/
+    left: 100px;/* shifting 100px to left*/
+    top: 10%;/* shifting top from 10%*/
+
+}
 
 .header-img {  /* header img */
   position: absolute; /* position img with refrance to header*/
@@ -85,15 +95,17 @@ input[type="text"]:focus {/* style whent inbox selected*/
 }
 .no-item-img{/* img style when list is empty*/
   width: 370px;/* applying widht 370px to fill the div*/
-  height: 30vh;/* applying height 30 vh to fill div*/
+  height: 29vh;/* applying height 30 vh to fill div*/
 }
 .no-item-pera{/* text style when list is empty*/
+  width: 314px;/* give width to take todo down*/
   text-align: center;/* align text to center*/
-  margin-top: 10px;/* shift 10 px from top*/
+  margin-left: 30px;/* shift to left to make it center*/
   font-family: sans-serif;/* appling sens serif font*/
   font-weight: 400;/* font weight 400 to make it light*/
-  line-height: 10px;/* line height 10px to enlarge it*/
+  line-height: 25px;/* line height 25px to enlarge it*/
   word-spacing: 2px;/* giving 2px space b/w words*/
   letter-spacing: 1px;/* giving 1px space b/w letters*/
  font-size: 20px;/* applying font size of 20px*/
+ text-transform: capitalize;
 }

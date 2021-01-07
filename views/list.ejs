@@ -5,10 +5,15 @@
   <meta charset="utf-8">
   <title>Todo List</title>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="icon" href="img/favicon.ico" type="image/todo-icon"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
   <header>
+    <h1 class="logo"><strong>ToDO List</strong></h1>
     <div class="todo-inbox"> <!--making to list box -->
       <h2 class="date"><%=kindOfDay%></h2><!--get date from local -->
       <div class="list-item"><!--making todo list item -->
@@ -19,8 +24,8 @@
         </ul>
         <% if(i==0){ %> <!--condition if list is empty-->
           <div class="empty-todo"><!--div fro empty loop message-->
+            <p class="no-item-pera">looks like you have nothing To-Do</p><!--empty list text-->
             <img class="no-item-img" src="img/nothing.svg" alt="no work"><!--vector img for empty list-->
-          <p class="no-item-pera">looks like you have nothing To-Do</p><!--empty list text-->
           </div>
         <%  } %> <!--ejs module end-->
       </div>
@@ -31,10 +36,9 @@
       </form>
     </div>
     <img class="header-img" src="img/main_Img.svg" alt="todo list"><!--header img -->
-
+    
   </header><!--header close-->
 
 
-</body>
 
 </html>
