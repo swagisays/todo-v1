@@ -5,45 +5,58 @@
   <meta charset="utf-8">
   <title>Todo List</title>
   <link rel="stylesheet" href="css/main.css">
-  <link rel="icon" href="img/favicon.ico" type="image/todo-icon"/>
+  <link rel="icon" href="img/favicon.ico" type="image/todo-icon" />
   <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
   <header>
     <h1 class="logo"><strong>ToDO List</strong></h1>
-    <div class="todo-inbox"> <!--making to list box -->
-      <h2 class="date"><%=kindOfDay%></h2><!--get date from local -->
-      <div ><!--making todo list item -->
+    <div id="todoDiv" class="todo-inbox">
+      <!--making to list box -->
+      <h2 class="date"><%=kindOfDay%></h2>  <!--get date from local -->
+
+        <!--making todo list item -->
         <ul>
-          <% for (var i = 0; i < item.length; i++) { %> <!-- looping to create new item -->
-         <div class="ItemBox">
-           <input class="checkbox" type="checkbox">
-           <li class="list-item"><%=item[i]%></li><!-- storing item while looping-->
-            </div>
-           <%  } %>
-         </ul>
-
-
-        <% if(i==0){ %> <!--condition if list is empty-->
-          <div class="empty-todo"><!--div fro empty loop message-->
-            <p class="no-item-pera">looks like you have nothing To-Do</p><!--empty list text-->
-            <img class="no-item-img" src="img/nothing.svg" alt="no work"><!--vector img for empty list-->
+          <% for (var i = 0; i < item.length; i++) { %>
+          <!-- looping to create new item -->
+          <div class="ItemBox">
+            <input id="checkbox" class="checkbox" type="checkbox">
+            <li class="list-item"><%=item[i]%></li><!-- storing item while looping-->
           </div>
-        <%  } %> <!--ejs module end-->
-      </div>
+          <%  } %>
+        </ul>
 
-      <form action="/" method="post" autocomplete="off"> <!-- get input from user-->
-        <input type="text" name="newItem" placeholder="Add New Item"> <!--input box to-do-->
-        <button class="add-btn" type="submit">+</button><!--submit button-->
+        <% if(i==0){ %>
+        <!--condition if list is empty-->
+        <div class="empty-todo">
+          <!--div fro empty loop message-->
+          <p class="no-item-pera">looks like you have nothing To-Do</p>
+          <!--empty list text-->
+          <img class="no-item-img" src="img/nothing.svg" alt="no work">
+          <!--vector img for empty list-->
+        </div>
+        <%  } %>
+
+        <!--ejs module end-->
+</div>
+
+      <form class="ItemInput" action="/" method="post" autocomplete="off">
+        <!-- get input from user-->
+        <input type="text" name="newItem" placeholder="Add New Item" autofocus>
+        <!--input box to-do-->
+        <button class="add-btn" type="submit">+</button>
+        <!--submit button-->
       </form>
-    </div>
-    <img class="header-img" src="img/main_Img.svg" alt="todo list"><!--header img -->
 
-  </header><!--header close-->
+    <img class="header-img" src="img/main_Img.svg" alt="todo list">
+    <!--header img -->
 
-
+  </header>
+  <!--header close-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="js/index.js" charset="utf-8"></script>
 
 </html>

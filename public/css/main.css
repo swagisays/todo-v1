@@ -31,14 +31,15 @@ header {
 
 .todo-inbox {/* todo list inbox*/
   display: inline-block;
+  overflow: hidden auto;
   position: relative;/* position refrance to header*/
   top: 30%;/* shifting 30% from top*/
   left: 100px;/* shifting 100px from left*/
-  height: 55vh;/* appling height of 55 view port*/
+  height: 50vh;/* appling height of 55 view port*/
   width: 450px;/* giving width of 450 pixel*/
   background-color: #f4f9fc;/* a light blue backgroud color #f4f9fc*/
-  border-radius: 3px;/* giveing 3px border radius*/
-  box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.25);/* applying box shadow*/
+  border-radius: 3px 3px 0 0;/* giveing 3px border radius*/
+  box-shadow: 4px 0 5px rgba(0, 0, 0, 0.25);/* applying box shadow*/
 }
 
 .date{/* date coloum in todo inbox*/
@@ -51,21 +52,28 @@ header {
   word-spacing: 3px;/* 3px spacing b/w words*/
   letter-spacing: 2px;/* 2px spacing b/w letters*/
 }
+.ItemInput{
+  position: absolute;
+    top: 82vh;
+    left: 100px;
+    width: 450px;
+    height: 60px;
+    background-color: #f4f9fc;
+    border-radius: 0 0 3px 3px ;/* giveing 3px border radius*/
+    box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.25);/* applying box shadow*/
+
+}
 
 input[type=text]{/* input text box*/
-      position: absolute;/* position with todo inbox*/
-      left: 50px;/* shifting 50px left*/
-      bottom: 30px;/* shifting 30 px from bottom*/
-      border: none;/* removing border*/
-      background-color: #f4f9fc;/* light blue bg color*/
-      border-bottom: 2px solid #374b73;/* giving bottom border color */
-      width: 273px;/* giving 273 px width*/
-      height: 55px;/* giving 55px height */
-      font-size: 20px;/* font size of 20 px*/
-      font-family: sans-serif;/* appling sens-serif font*/
-     font-weight: 200;/* font weight of 200 to make it lighter*/
-     text-align: center;/* align text to center*/
-
+  position: absolute;
+border: none;
+background-color: #f4f9fc;
+width: 370px;
+height: 55px;
+font-size: 20px;
+font-family: sans-serif;
+font-weight: 200;
+text-align: center;
 }
 input[type="text"]:focus {/* style whent inbox selected*/
   outline: none;/* removing default outline*/
@@ -77,40 +85,47 @@ input[type="text"]:focus {/* style whent inbox selected*/
   opacity: 1;/* mke text lighter*/
 }
 .add-btn{/* submit button style*/
-  position: absolute;/* position it with respext to todo inbox*/
-  right: 50px;/* shifting right 50px*/
-  bottom: 25px;/* shifting bottom 25 px*/
-  min-height: 50px;/* applying min height of 50px*/
-  width: 50px;/* width of 50 px*/
-  border-radius: 50%;/* making it round*/
-  background-color: #374b73;/* giving blue bg color */
-  color: #fff;/* applying text color to white*/
-  border-width: 0;/* removeing border width*/
-  font-size: 30px;/* add font size to make + big*/
+  position: absolute;
+    right: 10px;
+    top: 5px;
+    /* bottom: 25px; */
+    min-height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #374b73;
+    color: #fff;
+    border-width: 0;
+    font-size: 30px;
 }
 .ItemBox{
   position: relative;/* position with todo inbox*/
   left: 40px;/* shifting 40px left*/
   top: 25px;/* shifting 110 px from bottom*/
   margin-top: 10px;
+  border-bottom: 1px solid #eee;/* giving bottom border color */
+  width: 100%;/* giving 273 px width*/
+  height: 50px;/* giving 40px height */
+
+
 }
 .checkbox{
 display: inline-block;
 }
+input:checked+li {
+  text-decoration: line-through;
+  text-decoration-color: #374b73;
+}
 .list-item, li{
+  text-transform: capitalize;
   display: inline-block;
   list-style-type: none;/* remove bullet points */
-  /*position: absolute;/* position with todo inbox*/
-  /*left: 50px;/* shifting 50px left*/
-  /*top: 100px;/* shifting 100 px from bottom*/
   border: none;/* removing border*/
-  border-bottom: 2px solid #374b73;/* giving bottom border color */
-  width: 273px;/* giving 273 px width*/
-  height: 40px;/* giving 40px height */
-  font-size: 30px;/* font size of 20 px*/
+  font-size: 20px;/* font size of 20 px*/
   font-family: sans-serif;/* appling sens-serif font*/
  font-weight: 200;/* font weight of 200 to make it lighter*/
- overflow-x: hidden;
+ letter-spacing: 1px;
+ word-spacing: 5px;
+ margin-left: 25px;
 }
 .empty-todo{/* styling when their is no item in todo list*/
   position: absolute;/* position it with respect to todo inbox*/
@@ -118,8 +133,9 @@ display: inline-block;
   top:70px;/* shifting top 70px*/
 }
 .no-item-img{/* img style when list is empty*/
-  width: 370px;/* applying widht 370px to fill the div*/
-  height: 29vh;/* applying height 30 vh to fill div*/
+  position: absolute;
+  width: 100%;/* applying widht 370px to fill the div*/
+  height: 32vh;/* applying height 30 vh to fill div*/
 }
 .no-item-pera{/* text style when list is empty*/
   width: 314px;/* give width to take todo down*/
