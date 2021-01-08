@@ -1,6 +1,7 @@
 * { /*removeing default margin & padding*/
   margin: 0;
   padding: 0;
+
 }
 
 header {
@@ -23,12 +24,14 @@ header {
 .header-img {  /* header img */
   position: absolute; /* position img with refrance to header*/
   right: 50px; /* shift 50 px from right */
+  top: 60px;
   width: 45%; /* width of 45%*/
-  height: 100vh;/* taking full page height*/
+  height: 90vh;/* taking full page height*/
 }
 
 .todo-inbox {/* todo list inbox*/
-  position: absolute;/* position refrance to header*/
+  display: inline-block;
+  position: relative;/* position refrance to header*/
   top: 30%;/* shifting 30% from top*/
   left: 100px;/* shifting 100px from left*/
   height: 55vh;/* appling height of 55 view port*/
@@ -85,9 +88,30 @@ input[type="text"]:focus {/* style whent inbox selected*/
   border-width: 0;/* removeing border width*/
   font-size: 30px;/* add font size to make + big*/
 }
-/* .list-Item{
-
-} */
+.ItemBox{
+  position: relative;/* position with todo inbox*/
+  left: 40px;/* shifting 40px left*/
+  top: 25px;/* shifting 110 px from bottom*/
+  margin-top: 10px;
+}
+.checkbox{
+display: inline-block;
+}
+.list-item, li{
+  display: inline-block;
+  list-style-type: none;/* remove bullet points */
+  /*position: absolute;/* position with todo inbox*/
+  /*left: 50px;/* shifting 50px left*/
+  /*top: 100px;/* shifting 100 px from bottom*/
+  border: none;/* removing border*/
+  border-bottom: 2px solid #374b73;/* giving bottom border color */
+  width: 273px;/* giving 273 px width*/
+  height: 40px;/* giving 40px height */
+  font-size: 30px;/* font size of 20 px*/
+  font-family: sans-serif;/* appling sens-serif font*/
+ font-weight: 200;/* font weight of 200 to make it lighter*/
+ overflow-x: hidden;
+}
 .empty-todo{/* styling when their is no item in todo list*/
   position: absolute;/* position it with respect to todo inbox*/
   right: 50px;/* shifting right 50px*/
