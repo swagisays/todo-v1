@@ -23,10 +23,13 @@
           <% let noItem = true; %>
           <% item.forEach(function(item){ %><!-- looping to create new item -->
             <% noItem = false; %>
-          <div class="ItemBox">
-            <input id="checkbox" class="checkbox" type="checkbox">
-            <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
-          </div>
+            <form action="/delete" method="post">
+              <div class="ItemBox">
+                <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
+                <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
+              </div>
+            </form>
+
         <%  })  %>
         </ul>
 

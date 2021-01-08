@@ -15,42 +15,17 @@ const ItemScema = {
 };
 const Item = mongoose.model("item",ItemScema);
 
-const item1 = new Item({
-  value:"chai pee"
-});
-const item2 = new Item({
-  value:"kup dho lo"
-});
-const item3 = new Item({
-  value:"shinke mai rakh do"
-});
-
-const defaultItems = [item1,item2,item3];
 
 app.get("/", function(req,res) {// geting req to rout route
 
   Item.find({},function (err,foundItems) {
-    if (foundItems.length===0) {
-      Item.insertMany(defaultItems,function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("success");
-        }
-      });
-      res.redirect("/");
-    }
-    else{
-      res.render("list", {//sending data to ejs list template
-        kindOfDay: "today",//storing date in kindaofday ejs variable
-        item: foundItems//storing item arrey in ejs items variable
-      });
-    }
+    res.render("list", {//sending data to ejs list template
+         kindOfDay: "today",//storing date in kindaofday ejs variable
+         item: foundItems//storing item arrey in ejs items variable
+       });
 
   })
 })
-
-
 
 app.post("/", function(req, res) {// geting list items from user
   let itemValue = req.body.newItem;//storing list newitem to item
@@ -59,8 +34,15 @@ app.post("/", function(req, res) {// geting list items from user
   });
   newItem.save();
   res.redirect("/");//redirecting to get request
-
 });
+app.post("/delete",function (req,res) {
+  const checkedId = req.body.checkbox;
+  Item.findByIdAndRemove(checkedId ,function (err) {
+    console.log(err);
+    res.redirect("/");
+  });
+
+})
 
 app.listen(1705, function() {//listioning on port 1705
   console.log("server is running on port 1705");//sending msg of conformation
