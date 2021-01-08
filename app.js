@@ -11,25 +11,25 @@ app.set('view engine', 'ejs');// setting up ejs module
 mongoose.connect("mongodb://localhost:27017/tododb");
 
 const ItemScema = {
-  name:String
+  value:String
 };
 const Item = mongoose.model("item",ItemScema);
 
 const item1 = new Item({
-  name:"chai pee"
+  value:"chai pee"
 });
 const item2 = new Item({
-  name:"kup dho lo"
+  value:"kup dho lo"
 });
 const item3 = new Item({
-  name:"shinke mai rakh do"
+  value:"shinke mai rakh do"
 });
 
 const defaultItems = [item1,item2,item3];
 
 app.get("/", function(req,res) {// geting req to rout route
 
-  Item.find(function (err,foundItems) {
+  Item.find({},function (err,foundItems) {
     if (foundItems.length===0) {
       Item.insertMany(defaultItems,function (err) {
         if (err) {
@@ -38,15 +38,14 @@ app.get("/", function(req,res) {// geting req to rout route
           console.log("success");
         }
       });
-    };
-    res.redirect("/");
-
+      res.redirect("/");
+    }
     else{
       res.render("list", {//sending data to ejs list template
         kindOfDay: "today",//storing date in kindaofday ejs variable
         item: foundItems//storing item arrey in ejs items variable
       });
-    };
+    }
 
   })
 })
@@ -54,8 +53,11 @@ app.get("/", function(req,res) {// geting req to rout route
 
 
 app.post("/", function(req, res) {// geting list items from user
-  let item = req.body.newItem;//storing list newitem to item
-  items.push(item);//pushing new item into items array
+  let itemValue = req.body.newItem;//storing list newitem to item
+  const newItem = new Item({
+    value:itemValue
+  });
+  newItem.save();
   res.redirect("/");//redirecting to get request
 
 });
