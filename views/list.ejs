@@ -20,16 +20,17 @@
 
         <!--making todo list item -->
         <ul>
-          <% for (var i = 0; i < item.length; i++) { %>
-          <!-- looping to create new item -->
+          <% let noItem = true; %>
+          <% item.forEach(function(item){ %><!-- looping to create new item -->
+            <% noItem = false; %>
           <div class="ItemBox">
             <input id="checkbox" class="checkbox" type="checkbox">
-            <li class="list-item"><%=item[i]%></li><!-- storing item while looping-->
+            <li class="list-item"><%=item.name%></li><!-- storing item while looping-->
           </div>
-          <%  } %>
+        <%  })  %>
         </ul>
 
-        <% if(i==0){ %>
+        <% if(noItem==true){ %>
         <!--condition if list is empty-->
         <div class="empty-todo">
           <!--div fro empty loop message-->
