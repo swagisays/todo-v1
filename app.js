@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ //syntext to use body parser
 }));
 app.use(express.static("public")); // sending public files to user
 app.set('view engine', 'ejs'); // setting up ejs module
-mongoose.connect("mongodb://localhost:27017/tododb", {// createing tododb data base & running mongodb server on local host
+mongoose.connect("mongodb+srv://amin-swagi:8ZtJaFM3IKDW0Q4o@cluster-todo.a0ov1.mongodb.net/tododb", {// createing tododb data base & running mongodb server on local host
   useUnifiedTopology: true,// removing depication WARNING
   useFindAndModify: false,// removing depication WARNING
   useNewUrlParser: true// removing depication WARNING
@@ -124,6 +124,6 @@ app.post("/delete", function(req, res) {// post req if user want to deleate an i
   }// end of else statement
 });//deleteing elements post req end
 
-app.listen(1705, function() { //listioning on port 1705
+app.listen(process.env.PORT || 1705, function() { //listioning on port 1705
   console.log("server is running on port 1705"); //sending msg of conformation
 });
