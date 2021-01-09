@@ -16,51 +16,53 @@
     <h1 class="logo"><strong>ToDO List</strong></h1>
     <div id="todoDiv" class="todo-inbox">
       <!--making to list box -->
-      <h2 class="date"><%=kindOfDay%></h2>  <!--get date from local -->
+      <h2 class="date"><%=kindOfDay%></h2>
+      <!--get date from local -->
 
-        <!--making todo list item -->
-        <ul>
-          <% let noItem = true; %>
-          <% item.forEach(function(item){ %><!-- looping to create new item -->
-            <% noItem = false; %>
-            <form action="/delete" method="post">
-              <div class="ItemBox">
-                <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
-                <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
-              </div>
-            </form>
+      <% noItem %>
+      <% if(noItem==true){ %>
+      <!--condition if list is empty-->
+      <div class="empty-todo">
+        <!--div fro empty loop message-->
+        <p class="no-item-pera">looks like you have nothing To-Do</p>
+        <!--empty list text-->
+        <img class="no-item-img" src="img/nothing.svg" alt="no work">
+        <!--vector img for empty list-->
+      </div>
+      <%  } else { %>
+      <!--making todo list item -->
+      <ul>
+        <% item.forEach(function(item){ %>
+        <!-- looping to create new item -->
+        <form action="/delete" method="post">
+          <div class="ItemBox">
+            <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
+            <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
+          </div>
+        </form>
 
         <%  })  %>
-        </ul>
+      </ul>
+      <!--ejs module end-->
 
-        <% if(noItem==true){ %>
-        <!--condition if list is empty-->
-        <div class="empty-todo">
-          <!--div fro empty loop message-->
-          <p class="no-item-pera">looks like you have nothing To-Do</p>
-          <!--empty list text-->
-          <img class="no-item-img" src="img/nothing.svg" alt="no work">
-          <!--vector img for empty list-->
-        </div>
-        <%  } %>
+      <%  } %>
 
-        <!--ejs module end-->
-</div>
+    </div>
 
-      <form class="ItemInput" action="/" method="post" autocomplete="off">
-        <!-- get input from user-->
-        <input type="text" name="newItem" placeholder="Add New Item" autofocus>
-        <!--input box to-do-->
-        <button class="add-btn" type="submit">+</button>
-        <!--submit button-->
-      </form>
+    <form class="ItemInput" action="/" method="post" autocomplete="off">
+      <!-- get input from user-->
+      <input type="text" name="newItem" placeholder="Add New Item" autofocus>
+      <!--input box to-do-->
+      <button class="add-btn" type="submit">+</button>
+      <!--submit button-->
+    </form>
 
     <img class="header-img" src="img/main_Img.svg" alt="todo list">
     <!--header img -->
 
   </header>
   <!--header close-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="js/index.js" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="js/index.js" charset="utf-8"></script>
 
 </html>

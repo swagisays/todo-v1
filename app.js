@@ -10,22 +10,76 @@ app.use(express.static("public"));// sending public files to user
 app.set('view engine', 'ejs');// setting up ejs module
 mongoose.connect("mongodb://localhost:27017/tododb");
 
-const ItemScema = {
+const ItemSchema = {
   value:String
 };
-const Item = mongoose.model("item",ItemScema);
+const Item = mongoose.model("item",ItemSchema);
+
+const ListSchema = {
+  name:String,
+  items:ItemSchema
+}
+const List = mongoose.model("list",ListSchema);
 
 
 app.get("/", function(req,res) {// geting req to rout route
 
   Item.find({},function (err,foundItems) {
-    res.render("list", {//sending data to ejs list template
-         kindOfDay: "today",//storing date in kindaofday ejs variable
-         item: foundItems//storing item arrey in ejs items variable
-       });
+    if (foundItems.length===0) {
+      res.render("list",{
+        kindOfDay: "Today",
+        noItem: true
+      });
+    } else {
+      res.render("list", {//sending data to ejs list template
+           kindOfDay: "Today",//storing date in kindaofday ejs variable
+           noItem: false,
+           item: foundItems//storing item arrey in ejs items variable
+         });
+    }
+
+
+  });
+});
+
+app.get("/:customList",function (req,res) {
+  const customListName = req.params.customList;
+
+    List.findOne({name: customListName},function (err,foundList) {
+    if (!err) {
+      if (!foundList) {
+        // create new list
+        list = new List({
+          name:customListName,
+          items:[]
+        });
+        list.save();
+        res.redirect("/" + customListName);
+      }
+      else{
+        console.log(foundList.name);
+        console.log(foundList.items);
+        if (foundList.items=="{}") {
+          res.render("list",{
+            kindOfDay: foundList.name,
+            noItem: true
+          });
+        } else{
+          // show exsisting one
+          res.render("list", {//sending data to ejs list template
+               kindOfDay: foundList.name,//storing date in kindaofday ejs variable
+               noItem: true,
+               item: foundList.items//storing item arrey in ejs items variable
+             });
+        }
+
+
+      }
+    }
 
   })
-})
+
+});
 
 app.post("/", function(req, res) {// geting list items from user
   let itemValue = req.body.newItem;//storing list newitem to item
