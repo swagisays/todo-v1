@@ -44,7 +44,8 @@ app.get("/", function(req,res) {// geting req to rout route
 });
 
 app.get("/:customList",function (req,res) {
-  const customListName = req.params.customList;
+  let customListUser = req.params.customList;
+  let customListName = customListUser[0].toUpperCase() + customListUser.slice(1).toLowerCase() ;
 
     List.findOne({name: customListName},function (err,foundList) {
     if (!err) {
