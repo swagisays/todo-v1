@@ -16,7 +16,7 @@
     <h1 class="logo"><strong>ToDO List</strong></h1>
     <div id="todoDiv" class="todo-inbox">
       <!--making to list box -->
-      <h2 class="date"><%=kindOfDay%></h2>
+      <h2 class="list"> <%= listTitle %> </h2>
       <!--get date from local -->
 
       <% noItem %>
@@ -38,6 +38,7 @@
           <div class="ItemBox">
             <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
             <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
+            <input type="hidden" name="listName" value="<%= listTitle %>" >
           </div>
         </form>
 
@@ -53,7 +54,7 @@
       <!-- get input from user-->
       <input type="text" name="newItem" placeholder="Add New Item" autofocus>
       <!--input box to-do-->
-      <button class="add-btn" type="submit">+</button>
+      <button class="add-btn" name="list" value="<%= listTitle %>" type="submit">+</button>
       <!--submit button-->
     </form>
 

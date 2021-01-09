@@ -42,7 +42,7 @@ header {
   box-shadow: 4px 0 5px rgba(0, 0, 0, 0.25);/* applying box shadow*/
 }
 
-.date{/* date coloum in todo inbox*/
+.list{/* date coloum in todo inbox*/
   text-align: center;/* align date to center*/
   background-color: #ffe3e3;/* giving light pink background color*/
   padding: 10px;/* make box big via 10px padding*/

@@ -8,7 +8,8 @@ app.use(bodyParser.urlencoded({//syntext to use body parser
 }));
 app.use(express.static("public"));// sending public files to user
 app.set('view engine', 'ejs');// setting up ejs module
-mongoose.connect("mongodb://localhost:27017/tododb");
+mongoose.connect("mongodb://localhost:27017/tododb", { useUnifiedTopology: true , useNewUrlParser: true});
+mongoose.set('useFindAndModify', false);
 
 const ItemSchema = {
   value:String
@@ -17,7 +18,7 @@ const Item = mongoose.model("item",ItemSchema);
 
 const ListSchema = {
   name:String,
-  items:ItemSchema
+  items:[ItemSchema]
 }
 const List = mongoose.model("list",ListSchema);
 
@@ -27,12 +28,12 @@ app.get("/", function(req,res) {// geting req to rout route
   Item.find({},function (err,foundItems) {
     if (foundItems.length===0) {
       res.render("list",{
-        kindOfDay: "Today",
+        listTitle: "Today",
         noItem: true
       });
     } else {
       res.render("list", {//sending data to ejs list template
-           kindOfDay: "Today",//storing date in kindaofday ejs variable
+           listTitle: "Today",//storing date in kindaofday ejs variable
            noItem: false,
            item: foundItems//storing item arrey in ejs items variable
          });
@@ -57,18 +58,16 @@ app.get("/:customList",function (req,res) {
         res.redirect("/" + customListName);
       }
       else{
-        console.log(foundList.name);
-        console.log(foundList.items);
-        if (foundList.items=="{}") {
+        if (foundList.items.length==0) {
           res.render("list",{
-            kindOfDay: foundList.name,
+            listTitle: foundList.name,
             noItem: true
           });
         } else{
           // show exsisting one
           res.render("list", {//sending data to ejs list template
-               kindOfDay: foundList.name,//storing date in kindaofday ejs variable
-               noItem: true,
+               listTitle: foundList.name,//storing date in kindaofday ejs variable
+               noItem: false,
                item: foundList.items//storing item arrey in ejs items variable
              });
         }
@@ -83,18 +82,41 @@ app.get("/:customList",function (req,res) {
 
 app.post("/", function(req, res) {// geting list items from user
   let itemValue = req.body.newItem;//storing list newitem to item
+  const listName = req.body.list;
   const newItem = new Item({
     value:itemValue
   });
-  newItem.save();
-  res.redirect("/");//redirecting to get request
+  if (listName==="Today") {
+    newItem.save();
+    res.redirect("/");//redirecting to get request
+  } else {
+    List.findOne({name: listName}, function (err,foundList) {
+      if (!err) {
+        foundList.items.push(newItem);
+        foundList.save();
+        res.redirect("/" + listName);
+      }
+    });
+  }
+
 });
 app.post("/delete",function (req,res) {
   const checkedId = req.body.checkbox;
-  Item.findByIdAndRemove(checkedId ,function (err) {
-    console.log(err);
-    res.redirect("/");
-  });
+  const listName = req.body.listName;
+  if (listName==="Today") {
+    Item.findByIdAndRemove(checkedId ,function (err) {
+      console.log(err);
+      res.redirect("/");
+    });
+  } else {
+
+    List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedId}}}, function (err,foundItem) {
+      if (!err) {
+
+        res.redirect("/" + listName);
+      }
+    })
+  }
 
 })
 
