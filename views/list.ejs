@@ -1,25 +1,15 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-
-<head>
-  <meta charset="utf-8">
-  <title>Todo List</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="icon" href="img/favicon.ico" type="image/todo-icon" />
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
-
-</head>
+<!--including header from partials -->
+<%- include("partials/header.ejs") -%>
 
 <body>
   <header>
-    <h1 class="logo"><strong>ToDO List</strong></h1>
+    <h1 class="logo"><strong>ToDO List</strong></h1> <!-- todo list logo-->
     <div id="todoDiv" class="todo-inbox">
       <!--making to list box -->
       <h2 class="list"> <%= listTitle %> </h2>
       <!--get date from local -->
 
-      <% noItem %>
+      <% noItem %><!-- geting boolean type no item js var -->
       <% if(noItem==true){ %>
       <!--condition if list is empty-->
       <div class="empty-todo">
@@ -28,27 +18,27 @@
         <!--empty list text-->
         <img class="no-item-img" src="img/nothing.svg" alt="no work">
         <!--vector img for empty list-->
-      </div>
-      <%  } else { %>
+      </div><!-- end of div-->
+      <%  } else { %> <!-- if their is items-->
       <!--making todo list item -->
       <ul>
         <% item.forEach(function(item){ %>
         <!-- looping to create new item -->
-        <form action="/delete" method="post">
-          <div class="ItemBox">
-            <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
+        <form action="/delete" method="post"><!-- deleate elements form-->
+          <div class="ItemBox"><!-- each item box div-->
+            <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()"><!-- checkbox for todo list on change submit method of js-->
             <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
-            <input type="hidden" name="listName" value="<%= listTitle %>" >
-          </div>
-        </form>
+            <input type="hidden" name="listName" value="<%= listTitle %>"><!-- hidden input to send list title to server-->
+          </div><!-- item box end -->
+        </form><!-- delete form end -->
 
-        <%  })  %>
+        <%  })  %><!-- for each loop end -->
       </ul>
       <!--ejs module end-->
 
-      <%  } %>
+      <%  } %> <!-- else element end-->
 
-    </div>
+    </div><!-- todo inbox end-->
 
     <form class="ItemInput" action="/" method="post" autocomplete="off">
       <!-- get input from user-->
@@ -66,4 +56,4 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="js/index.js" charset="utf-8"></script>
 
-</html>
+  </html>
