@@ -124,6 +124,11 @@ app.post("/delete", function(req, res) {// post req if user want to deleate an i
   }// end of else statement
 });//deleteing elements post req end
 
-app.listen(process.env.PORT || 1705, function() { //listioning on port 1705
+let port = process.env.PORT;
+if (port==null || port=="") {
+  port=1705;
+}
+
+app.listen(port || 1705, function() { //listioning on port 1705
   console.log("server is running on port 1705"); //sending msg of conformation
 });
