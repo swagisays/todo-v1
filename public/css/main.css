@@ -42,9 +42,7 @@ header {
   top: 60px;
   /* shifting top to 60px */
   width: 45%;
-  /* width of 45%*/
-  height: 90vh;
-  /* taking full page height*/
+  /* width of 45%*/  
 }
 
 .todo-inbox {
