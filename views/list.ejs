@@ -42,7 +42,7 @@
 
     <form class="ItemInput" action="/" method="post" autocomplete="off">
       <!-- get input from user-->
-      <input type="text" name="newItem" placeholder="Add New Item" autofocus>
+      <input type="text" class="inputText" name="newItem" placeholder="Add New Item" autofocus>
       <!--input box to-do-->
       <button class="add-btn" name="list" value="<%= listTitle %>" type="submit">+</button>
       <!--submit button-->
@@ -52,11 +52,12 @@
     <!--header img -->
 
   </header>
-  <!--header close--> 
+  <!--header close-->
 
   <script type="text/javascript">
     var objDiv = document.getElementById("todoDiv");
     objDiv.scrollTop = objDiv.scrollHeight;
+    }
   </script>
 
   </html>

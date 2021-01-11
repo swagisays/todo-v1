@@ -8,12 +8,16 @@ app.use(bodyParser.urlencoded({ //syntext to use body parser
 }));
 app.use(express.static("public")); // sending public files to user
 app.set('view engine', 'ejs'); // setting up ejs module
-mongoose.connect("mongodb+srv://amin-swagi:8ZtJaFM3IKDW0Q4o@cluster-todo.a0ov1.mongodb.net/tododb", {// createing tododb data base & running mongodb server on local host
+// mongoose.connect("mongodb+srv://amin-swagi:8ZtJaFM3IKDW0Q4o@cluster-todo.a0ov1.mongodb.net/tododb", {// createing tododb data base & running mongodb server on local host
+//   useUnifiedTopology: true,// removing depication WARNING
+//   useFindAndModify: false,// removing depication WARNING
+//   useNewUrlParser: true// removing depication WARNING
+// });
+mongoose.connect("mongodb://localhost:27017/tododb", {// createing tododb data base & running mongodb server on local host
   useUnifiedTopology: true,// removing depication WARNING
   useFindAndModify: false,// removing depication WARNING
   useNewUrlParser: true// removing depication WARNING
 });
-
 
 const ItemSchema = {// createing schema for items
   value: String// only contain a string element
@@ -82,6 +86,9 @@ app.get("/:custumList", function(req, res) {// geting custom list made by user
 
 app.post("/", function(req, res) { // geting list items from user
   let itemValue = req.body.newItem; //storing list item to itemValue
+  if (itemValue.length>20) {// chacking if the input text is larger than 20
+    itemValue = itemValue.slice(0,20);// making text only 20 elements long
+  }
   const listName = req.body.list;//storing list name to listName const
   const newItem = new Item({// creating new item
     value: itemValue
