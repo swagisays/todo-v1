@@ -14,6 +14,7 @@ mongoose.connect("mongodb+srv://amin-swagi:8ZtJaFM3IKDW0Q4o@cluster-todo.a0ov1.m
   useNewUrlParser: true// removing depication WARNING
 });
 
+
 const ItemSchema = {// createing schema for items
   value: String// only contain a string element
 };
