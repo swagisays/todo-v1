@@ -9,11 +9,17 @@ app.use(bodyParser.urlencoded({ //syntext to use body parser
 app.use(express.static("public")); // sending public files to user
 app.set('view engine', 'ejs'); // setting up ejs module
 
-mongoose.connect("mongodb://localhost:27017/tododb", {// createing tododb data base & running mongodb server on local host
+mongoose.connect("mongodb+srv://amin-swagi:8ZtJaFM3IKDW0Q4o@cluster-todo.a0ov1.mongodb.net/tododb", {// createing tododb data base & running mongodb server on local host
   useUnifiedTopology: true,// removing depication WARNING
   useFindAndModify: false,// removing depication WARNING
   useNewUrlParser: true// removing depication WARNING
 });
+
+// mongoose.connect("mongodb://localhost:27017/tododb", {// createing tododb data base & running mongodb server on local host
+//   useUnifiedTopology: true,// removing depication WARNING
+//   useFindAndModify: false,// removing depication WARNING
+//   useNewUrlParser: true// removing depication WARNING
+// });
 
 const ItemSchema = {// createing schema for items
   value: String// only contain a string element
