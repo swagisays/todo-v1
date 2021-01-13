@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express'); // requiring express
 const bodyParser = require('body-parser'); // requiring body parser
 const mongoose = require('mongoose'); //requiring mongoose for db
@@ -9,7 +10,7 @@ app.use(bodyParser.urlencoded({ //syntext to use body parser
 app.use(express.static("public")); // sending public files to user
 app.set('view engine', 'ejs'); // setting up ejs module
 
-mongoose.connect("mongodb+srv://amin-swagi:8ZtJaFM3IKDW0Q4o@cluster-todo.a0ov1.mongodb.net/tododb", {// createing tododb data base & running mongodb server on local host
+mongoose.connect(process.env.MDB_CONNECT+"/tododb", {// createing tododb data base & running mongodb server on local host
   useUnifiedTopology: true,// removing depication WARNING
   useFindAndModify: false,// removing depication WARNING
   useNewUrlParser: true// removing depication WARNING
