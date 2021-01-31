@@ -7,4 +7,4 @@ const ItemSchema = new Schema({// createing schema for items
   });
   const Item = mongoose.model("item", ItemSchema);//creating new colection name items
   
-  module.exports = Item;
+  module.exports = ItemSchema;

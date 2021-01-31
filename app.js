@@ -18,7 +18,7 @@ app.set('view engine', 'ejs'); // setting up ejs module
 
 // app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: "Our little secret.",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -75,10 +75,13 @@ app.get("/logout", function (req, res) {
 
 });
 
-app.post("/register", function (req, res) {  
-  
+app.post("/register", function (req, res) {
 
-  DB.User.register({username: req.body.username, sections: []}, req.body.password, function (err, user) {
+
+  DB.User.register({
+    username: req.body.username,
+    sections: []
+  }, req.body.password, function (err, user) {
 
     if (err) {
 
@@ -87,128 +90,110 @@ app.post("/register", function (req, res) {
 
     } else {
 
-      passport.authenticate("local")(req, res, function () {    
+      passport.authenticate("local")(req, res, function () {
 
-        const sectionItems = ['Calender','Personal','Shoping']
+        const sectionItems = ['Calender', 'Personal', 'Shoping'];
+        const uid = user._id
 
         sectionItems.forEach(item => {
-          DB.Section.create({title: item}, function (err,section) {        
-            
-           DB.User.findOneAndUpdate({_id: user._id}, {$push: {sections: [section._id]}} ,{new: true}, function (err,user) {
-             if (err) {
-               console.log(err);
-             } else {               
-               if (item === 'Calender') {
-                 const sectionId = user.sections[0];
-                 console.log(sectionId);
+          DB.Section.create({
+            title: item
+          }, function (err, section) {
 
-                 const listItems = ['Today','Tomorrow','Some Day'];
 
-                 listItems.forEach(item => {
+            DB.User.findOneAndUpdate({
+              _id: uid
+            }, {
+              $push: {
+                sections: [section._id]
+              }
+            }, {
+              new: true
+            }, function (err, user) {
+              if (err) {                
+                console.log(err);
+              } else {
+                if (item === 'Calender') {
 
-                  DB.List.create({title: item}, function (err,list) {
+                  const Calender = require("./register/Calender");
+                  const cal_id = Calender(user);
+                  // res.redirect("/todo?uid="+ user + ",sid=" + cal_id);               
+                  
 
-                    DB.Section.findOneAndUpdate({_id: sectionId}, {$push: {lists: [list._id]}}, {new: true}, function (err,list) {
-                      if (err) {
-                        console.log(err);
-                      } else {
-                        console.log(user);
-                        console.log(list);
-                      }
-                    })
-                    
-                  });
+                } else if (item === 'Personal') {
+                  const Personal = require("./register/Personal");
+                  const per_id = Personal(user);
+                  // res.redirect("/todo?uid="+ user + ",sid=" + per_id);
 
-                 });
-               }else if(item === 'Personal'){
+                } else {
+                  const Shoping = require("./register/Shoping");
+                  const sho_id = Shoping(user);
+                  // res.redirect("/todo?uid="+ user + ",sid=" + sho_id);
 
-                const sectionId = user.sections[1];
-                 console.log(sectionId);
-
-                 const listItems = ['Home','Work'];
-
-                 listItems.forEach(item => {
-
-                  DB.List.create({title: item}, function (err,list) {
-
-                    DB.Section.findOneAndUpdate({_id: sectionId}, {$push: {lists: [list._id]}}, {new: true}, function (err,list) {
-                      if (err) {
-                        console.log(err);
-                      } else {
-                        console.log(user);
-                        console.log(list);
-                      }
-                    })
-                    
-                  });
-
-                 });
-
-               }else{
-                const sectionId = user.sections[2];
-                console.log(sectionId);
-
-                const listItems = ['Grocery'];
-
-                listItems.forEach(item => {
-
-                 DB.List.create({title: item}, function (err,list) {
-
-                   DB.Section.findOneAndUpdate({_id: sectionId}, {$push: {lists: [list._id]}}, {new: true}, function (err,list) {
-                     if (err) {
-                       console.log(err);
-                     } else {
-                       console.log(user);
-                       console.log(list);
-                     }
-                   })
-                   
-                 });
-
-                });
-               }
-             }
-           });           
+                }
+              }
+            });
           });
+        });  
+        res.redirect("/todo/"+ uid);
+        
+      });
+    }
+  });
+});
+
+app.get("/todo/:uid", function (req, res) {
+  if (req.isAuthenticated()) {    
+    DB.User.findOne({_id: req.params.uid},function (err,user) {
+      if (err) {
+        console.log(err);
+      } else { 
+        const cal_id = user.sections[0];
+        const per_id = user.sections[1];
+        const shop_id = user.sections[2];
+        DB.Section.findOne({_id: cal_id},function (err,section) {
           
-        }); 
+          if (err) {
+            console.log(err);
+          } else {
+            const sectionTitle = section.title;
+            console.log(sectionTitle);
+            console.log(section.lists.length);
+            const list = section.lists;
+            list.forEach(listItem => {
+              DB.List.findOne({_id: listItem},function (err,list) {                
+                console.log(list);
+              })
+            });
+            
+          }
+        });
 
-       
-        res.redirect("/todo");
-      });
-
-    }
-  });
-
-});
-app.post("/login", function (req, res) {
-
-  const user = new DB.User({
-    username: req.body.email,
-    password: req.body.password
-  });
-  
-
-  req.login(user, function (err) {
-
-    if (err) {
-      console.log(err);
-    } else {
-      passport.authenticate("local")(req, res, function () {
-        res.redirect("/todo");
-      });
-    }
-
-  });
-
-});
-
-
-
-app.get("/todo",function (req,res) {
-  if (req.isAuthenticated()) {
-   res.send("hi");
+      }
+    });
     
+
+
+  } else {
+    res.redirect("/");
+  }
+
+});
+app.get("/todo/:uid/per", function (req, res) {
+  if (req.isAuthenticated()) {    
+    DB.User.findOne({_id: req.params.uid},function (err,user) {
+      if (err) {
+        console.log(err);
+      } else { 
+        const cal_id = user.sections[0];
+        const per_id = user.sections[1];
+        const shop_id = user.sections[2];
+        res.send(per_id);
+
+      }
+    });
+    
+
 
   } else {
     res.redirect("/");
@@ -216,13 +201,19 @@ app.get("/todo",function (req,res) {
 
 });
 
-
+app.post('/login',
+  passport.authenticate('local'),
+  function(req, res) {    
+    const uid = req.user._id;
+    res.redirect("/todo/"+ uid);
+    
+  });
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 1705;
+  port = 3000;
 }
 
-app.listen(port || 1705, function () { //listioning on port 1705
+app.listen(port || 3000, function () { //listioning on port 1705
   console.log("server is running on port 1705"); //sending msg of conformation
 });
