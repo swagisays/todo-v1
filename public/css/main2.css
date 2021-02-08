@@ -1,0 +1,264 @@
+* {
+  /*removeing default margin & padding*/
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  overflow: hidden;
+  /* scroll block*/
+  height: 100vh;
+  /* full screen height*/
+  position: relative;
+  /* relative positionto fit everything */
+  background: linear-gradient(242.94deg, #FFFFFF 1.22%, rgba(255, 255, 255, 0) 99.33%), #B4CDFF;
+  /* applying backgroud linear gradiant white and sky */
+}
+
+.logo {
+  /* Logo of webpage*/
+  font-family: 'Cabin Sketch', cursive;
+  /* add font family cabin sketch to logo*/
+  font-size: 100px;
+  /* making it big in font size 100px*/
+  font-weight: 700;
+  /* weight 700 make it more thin*/
+  display: inline-block;
+  /* to display it as a block*/
+  position: absolute;
+  /* position respect to header*/
+  left: 100px;
+  /* shifting 100px to left*/
+  top: 10%;
+  /* shifting top from 10%*/
+}
+
+.header-img {
+  /* header img */
+  position: absolute;
+  /* position img with refrance to header*/
+  right: 50px;
+  /* shift 50 px from right */
+  top: 60px;
+  /* shifting top to 60px */
+  width: 45%;
+  /* width of 45%*/  
+}
+
+.todo-inbox {
+  /* todo list inbox*/
+  display: inline-block;
+  /* tdisplay elements as inline block*/
+  overflow: hidden auto;
+  /* overflow hidden to x scroll to y*/
+  position: relative;
+  /* position refrance to header*/
+  top: 30%;
+  /* shifting 30% from top*/
+  left: 100px;
+  /* shifting 100px from left*/
+  height: 50vh;
+  /* appling height of 55 view port*/
+  width: 450px;
+  /* giving width of 450 pixel*/
+  background-color: #f4f9fc;
+  /* a light blue backgroud color #f4f9fc*/
+  border-radius: 3px 3px 0 0;
+  /* giveing 3px border radius*/
+  box-shadow: 4px 0 5px rgba(0, 0, 0, 0.25);
+  /* applying box shadow*/
+}
+
+.list {
+  /* date coloum in todo inbox*/
+  text-align: center;
+  /* align date to center*/
+  background-color: #ffe3e3;
+  /* giving light pink background color*/
+  padding: 10px;
+  /* make box big via 10px padding*/
+  border-radius: 3px 3px 0 0;
+  /* applying 3px border radius to top corners*/
+  font-size: 32px;
+  /* giving font size of 32 pixels*/
+  font-weight: 500;
+  /* making font thin via weight of 500*/
+  word-spacing: 3px;
+  /* 3px spacing b/w words*/
+  letter-spacing: 2px;
+  /* 2px spacing b/w letters*/
+}
+
+.ItemInput {
+  /* input element box*/
+  position: absolute;
+  /* position it bsolute*/
+  top: 82vh;
+  /* shifting top to 82vh*/
+  left: 100px;
+  /* shifting left to 100px*/
+  width: 450px;
+  /* applying 450 px width*/
+  height: 60px;
+  /* applying height of 60px*/
+  background-color: #f4f9fc;
+  /* light blue background*/
+  border-radius: 0 0 3px 3px;
+  /* giveing 3px border radius*/
+  box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.25);
+  /* applying box shadow*/
+}
+
+input[type=text] {
+  /* input text box*/
+  position: absolute;
+  /* absolute positioning*/
+  border: none;
+  /* removeing border*/
+  background-color: #f4f9fc;
+  /* light blue bg color*/
+  width: 370px;
+  /* give width of 370px*/
+  height: 55px;
+  /* give height of 55px*/
+  font-size: 20px;
+  /* font size 20px*/
+  font-family: sans-serif;
+  /* applying font family sens serif*/
+  font-weight: 200;
+  /* giving font 200 width*/
+  text-align: center;
+  /* align input text to center*/
+}
+
+input[type="text"]:focus {
+  /* style whent inbox selected*/
+  outline: none;
+  /* removing default outline*/
+  box-shadow: inset 0 -3px 0 0 #374b73;
+  /* make bottom line thin*/
+}
+
+::placeholder {
+  /* placeholder style in inbox*/
+  color: grey;
+  /* giving grey color to text*/
+  opacity: 1;
+  /* mke text lighter*/
+}
+
+.add-btn {
+  /* submit button style*/
+  position: absolute;
+  /* absolute positioning*/
+  right: 10px;
+  /* shift right 10px*/
+  top: 5px;
+  /* shift from top 5px*/
+  min-height: 50px;
+  /* applying min height of 50px*/
+  width: 50px;
+  /* giving width of 50 px*/
+  border-radius: 50%;
+  /* give some border radius of 50%*/
+  background-color: #374b73;
+  /* giving blue color*/
+  color: #fff;
+  /* applying white text color*/
+  border-width: 0;
+  /* applying widht of 0*/
+  font-size: 30px;
+  /* font size 30px*/
+}
+
+.ItemBox {
+  position: relative;
+  /* position with todo inbox*/
+  left: 40px;
+  /* shifting 40px left*/
+  top: 25px;
+  /* shifting 110 px from bottom*/
+  margin-top: 10px;
+  /* give margin of 10 px from top*/
+  border-bottom: 1px solid #eee;
+  /* giving bottom border color */
+  width: 100%;
+  /* giving 273 px width*/
+  height: 50px;
+  /* giving 40px height */
+}
+
+.checkbox {
+  display: inline-block;
+  /* to make checkbox in line with item*/
+}
+
+input:checked+li {
+  /* passing line when checkbox is clicked*/
+  text-decoration: line-through;
+  text-decoration-color: #374b73;
+}
+
+.list-item, li {
+  text-transform: capitalize;
+  display: inline-block;
+  list-style-type: none;
+  /* remove bullet points */
+  border: none;
+  /* removing border*/
+  font-size: 20px;
+  /* font size of 20 px*/
+  font-family: sans-serif;
+  /* appling sens-serif font*/
+  font-weight: 200;
+  /* font weight of 200 to make it lighter*/
+  letter-spacing: 1px;
+  /* applying some letter spacing*/
+  word-spacing: 5px;
+  /* some word spacing*/
+  margin-left: 25px;
+  /* some margin to left*/
+}
+
+.empty-todo {
+  /* styling when their is no item in todo list*/
+  position: absolute;
+  /* position it with respect to todo inbox*/
+  right: 50px;
+  /* shifting right 50px*/
+  top: 70px;
+  /* shifting top 70px*/
+}
+
+.no-item-img {
+  /* img style when list is empty*/
+  position: absolute;
+  width: 100%;
+  /* applying widht 370px to fill the div*/
+  height: 32vh;
+  /* applying height 30 vh to fill div*/
+}
+
+.no-item-pera {
+  /* text style when list is empty*/
+  width: 314px;
+  /* give width to take todo down*/
+  text-align: center;
+  /* align text to center*/
+  margin-left: 30px;
+  /* shift to left to make it center*/
+  font-family: sans-serif;
+  /* appling sens serif font*/
+  font-weight: 400;
+  /* font weight 400 to make it light*/
+  line-height: 25px;
+  /* line height 25px to enlarge it*/
+  word-spacing: 2px;
+  /* giving 2px space b/w words*/
+  letter-spacing: 1px;
+  /* giving 1px space b/w letters*/
+  font-size: 20px;
+  /* applying font size of 20px*/
+  text-transform: capitalize;
+  /* capitalyze text*/
+}

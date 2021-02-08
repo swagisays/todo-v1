@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="icon" href="img/favicon.ico" type="image/ico" sizes="20x20">
+    <title>Busy Fox</title>
+</head>
+
+<body>
+    <div class="home">
+    </div>
+    <nav class="side-nav">
+        <div class="profile">
+            <div class="profile-content">
+                <img class="profile-pic" src="./img/profile-pic.svg" alt="user profile">
+                <p class="username">Full Name</p>
+                <a class="edit-btn" href="#">Edit</a>
+            </div>
+
+            <button class="list-btn btn" type="button">Creat List</button>
+
+        </div>
+
+        <div class="sections">
+            <% sections.forEach(function(secTitle){ %>
+            <section class="sec-div">
+                <% var link = "/todo/"+ secTitle %>
+                <a class="sec-btn" href=<%= link %>><%=secTitle%></a>
+                <ul>
+                    <% if(secTitle=== 'calender'){ %>
+                    <% calList.forEach(function(listTitle){ %>
+                        <% var link = "/todo/calender/"+ listTitle %>
+                    <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
+                    <%  })  %>
+                    <!-- for each loop end -->
+
+                    <% } %>
+
+                    <% if(secTitle=== 'personal'){ %>
+                    <% perList.forEach(function(listTitle){ %>
+                        <% var link = "/todo/personal/"+ listTitle %>
+                        <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
+                    <%  })  %>
+                    <!-- for each loop end -->
+
+                    <% } %>
+
+                    <% if(secTitle=== 'shoping'){ %>
+                    <% shopList.forEach(function(listTitle){ %>
+                        <% var link = "/todo/shoping/"+ listTitle %>
+                        <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
+                    <%  })  %>
+                    <!-- for each loop end -->
+
+                    <% } %>
+
+                </ul>
+
+
+
+            </section>
+
+            <%  })  %>
+            <!-- for each loop end -->
+
+
+        </div>
+    </nav>
+
+    <div class="right-div div-task">        
+
+         <% listItems.forEach(function(item){ %>
+        
+        <div class="ItemBox"><!-- each item box div-->
+            <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()"><!-- checkbox for todo list on change submit method of js-->
+            <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
+           
+          </div><!-- item box end -->
+
+          <%  })  %>
+
+        <% var params = "/todo/" + sec +"/"+ listName %>
+        <form action=<%= params %> method="post">
+            <input type="text" name="value">
+            <button type="submit">+</button>
+        </form>
+    </div>
+    <div class="right-div div-cal"></div>
+</body>
+
+</html>

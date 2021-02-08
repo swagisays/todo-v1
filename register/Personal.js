@@ -7,7 +7,7 @@ function Personal(user) {
 
     const sectionId = per_id;
 
-    const listItems = ['Home', 'Work'];
+    const listItems = ['home', 'work'];
 
     listItems.forEach(item => {
 
@@ -32,7 +32,7 @@ function Personal(user) {
         });
 
     }); 
-    return per_id;
+    // return per_id;
 }
 
 module.exports = Personal;

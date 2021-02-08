@@ -6,7 +6,7 @@ function Shoping(user) {
 
     const sectionId = sho_id;
 
-    const listItems = ['Grocery'];
+    const listItems = ['grocery'];
 
     listItems.forEach(item => {
 
@@ -33,7 +33,7 @@ function Shoping(user) {
         });
 
     });
-    return sho_id;
+    // return sho_id;
 
 }
 

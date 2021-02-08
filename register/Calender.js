@@ -6,7 +6,7 @@ function Calender(user) {
 
     const sectionId = cal_id;
 
-    const listItems = ['Today', 'Tomorrow', 'Some Day'];
+    const listItems = ['today', 'tomorrow', 'someday'];
 
     listItems.forEach(item => {
 
@@ -31,7 +31,7 @@ function Calender(user) {
         });
 
     });
-    return cal_id;
+    // return cal_id;
 
 }
 
