@@ -15,21 +15,22 @@
 
 <body>
   <div class="body">
-  <nav class="nav">
-    <div class="burger">
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
-    </div>
+  <nav class="nav  " >
+    <a href="#" class="toggle-button">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </a>
 
     <img class="logo" src="img/logo.svg" alt="busy fox logo">
-    <ul class="nav-list">
-      <li><a class="nav-item" href="#home">home</a></li>
-      <li><a class="nav-item" href="#privcy">privcy</a></li>
-      <li><a class="nav-item" href="#contect">contect us</a></li>
-      <li><button class="login-btn nav-item">login</button></li>
+    <div class="navbar-links">
+    <ul >
+      <li><a class="" href="#home">home</a></li>
+      <li><a class="" href="#privcy">privcy</a></li>
+      <li><a class="" href="#contect">contect us</a></li>
+      <li><button class="login-btn" onload="click">login</button></li>
     </ul>
-
+  </div>
 
   </nav>
   
@@ -40,7 +41,7 @@
       <p class="pera">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </p>
     </div>
-    <button class="register-btn btn">get started for free</button>
+    <button class="register-btn btn" onload="click">get started for free</button>
     <img src="img/phone.svg" alt="phone busy fox" class="phone">
 
   </header>
@@ -73,7 +74,7 @@
   </div>
   <img class="device-canvas" src="img/device_canvas.webp" alt="devices busy fox">
 </div>
-
+<div class="auth-flex">
 <div class="auth">
   <div class="auth-left-div ">
     <div class="formTitle">
@@ -83,12 +84,15 @@
     
   <form class="auth-form" action="/register" method="post">
     <div class="data">
+      <label >Name</label>
+      <input class="input" type="text" placeholder="Enter Your Name" name="name"></div>
+    <div class="data">
       <label>Email</label>
-      <input class="input" type="email" name="username" required>
+      <input class="input" type="email" placeholder="Enter Your Email" name="username" required>
     </div>
     <div class="data">
       <label>Password</label>
-      <input class="input" type="password" name="password" required>
+      <input class="input" type="password" placeholder="Enter Your Password" name="password" required>
     </div>
     <button class="submit-btn btn" type="submit">Register</button> 
     
@@ -107,7 +111,7 @@
   
 </div>
 
-<!-- <div class="auth">
+<div class="auth-login">
   <div class="auth-left-div ">
     <div class="formTitle">
       <h2 class="auth-heading ">Login</h2>      
@@ -136,12 +140,11 @@
       
     </div>
     
-    
   </div>
   
-  
-</div> -->
-
+</div>
+</div>
+<script src="./main.js"></script>
 </body>
 
 </html>

@@ -7,7 +7,8 @@ const findOrCreate = require('mongoose-findorcreate');
 const UserSchema = new Schema({
     username: String,
     googleId: String,
-    facebookId: String,   
+    facebookId: String,
+    avtar: String,  
     sections: [{      
       type: Schema.Types.ObjectId,
       ref: "Section"

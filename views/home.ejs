@@ -17,8 +17,9 @@
     <nav class="side-nav">
         <div class="profile">
             <div class="profile-content">
-                <img class="profile-pic" src="./img/profile-pic.svg" alt="user profile">
-                <p class="username">Full Name</p>
+                <!-- <img class="profile-pic" src="./img/profile-pic.svg" alt="user profile"> -->
+                <img class="profile-pic" src=<%= avtar %> >
+                <p class="username"><%= username %></p>
                 <a class="edit-btn" href="#">Edit</a>
             </div>
 
@@ -32,16 +33,16 @@
                 <% var link = "/todo/"+ secTitle %>
                 <a class="sec-btn" href=<%= link %>><%=secTitle%></a>
                 <ul>
-                    <% if(secTitle=== 'calender'){ %>
-                    <% calList.forEach(function(listTitle){ %>
+                    <% if(secTitle === 'calender'){ %>
+                    <% calList.forEach(function(listTitle){ %>                    
                         <% var link = "/todo/calender/"+ listTitle %>
-                    <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
+                    <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>                    
                     <%  })  %>
                     <!-- for each loop end -->
 
                     <% } %>
 
-                    <% if(secTitle=== 'personal'){ %>
+                    <% if(secTitle === 'personal'){ %>
                     <% perList.forEach(function(listTitle){ %>
                         <% var link = "/todo/personal/"+ listTitle %>
                         <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
@@ -50,7 +51,7 @@
 
                     <% } %>
 
-                    <% if(secTitle=== 'shoping'){ %>
+                    <% if(secTitle === 'shoping'){ %>
                     <% shopList.forEach(function(listTitle){ %>
                         <% var link = "/todo/shoping/"+ listTitle %>
                         <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
@@ -75,22 +76,35 @@
     <div class="right-div div-task">        
 
          <% listItems.forEach(function(item){ %>
-        
+        <form id="form" action="/del" method="post">
+            <% var params = "/todo/" + sec +"/"+ listName %>
+            
         <div class="ItemBox"><!-- each item box div-->
+            
             <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()"><!-- checkbox for todo list on change submit method of js-->
-            <li class="list-item"><%=item.value%></li><!-- storing item while looping-->
-           
-          </div><!-- item box end -->
+            <ul>
+            <li class="list-item"  onclick="document.getElementById('form').submit();" ><%=item.value%></li><!-- storing item while looping-->
+            <input type="hidden" name="listItem" value='<%= item._id %>'><!-- hidden input to send list title to server-->
+        </ul>
+            <input type="hidden" name="listId" value='<%= listId %>'><!-- hidden input to send list title to server-->
+            <input type="hidden" name="params" value='<%= params %>'>
+        
+          
+        </div><!-- item box end -->    
+        </form>
 
           <%  })  %>
 
         <% var params = "/todo/" + sec +"/"+ listName %>
-        <form action=<%= params %> method="post">
+        <form  action=<%= params %> method="post">
             <input type="text" name="value">
             <button type="submit">+</button>
         </form>
     </div>
     <div class="right-div div-cal"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/index.js"></script>
 </body>
 
 </html>
