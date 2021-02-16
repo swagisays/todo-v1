@@ -31,7 +31,7 @@ function Calender(user) {
         });
 
     });
-    // return cal_id;
+     return cal_id;
 
 }
 

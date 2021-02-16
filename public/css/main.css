@@ -758,6 +758,7 @@ border-radius: 20px; */
   .login-btn {
     padding: 0;
     left: auto;
+    margin-top: 50%;
   }
   .auth{
     position: fixed;

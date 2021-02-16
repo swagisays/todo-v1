@@ -148,9 +148,9 @@ passport.use(new GoogleStrategy({
 
 
 console.log("they got me");
-var calList;
-var perList;
-var shopList;
+// let calList;
+// let perList;
+// let shopList;
 
 app.get("/", function (req, res) {
   if (req.isUnauthenticated()) {
@@ -196,20 +196,20 @@ const ids = {
   per_id: null,
   shop_id: null
 }
-// key=env.process.API_KEY;
+
 
 const sectionArray = ['calender', 'personal', 'shoping'];
 
 app.post("/register", function (req, res) {
 
-  DB.User.register({username: req.body.username,sections: []}, req.body.password, function (err, user) {
+  DB.User.register({username: req.body.username, sections: []}, req.body.password, function (err, user) {
 
     if (err) {
 
       console.log(err);
       res.redirect("/");
 
-    } else {
+    } else { console.log('1',user);
 
       passport.authenticate("local")(req, res, function () {
 
@@ -227,7 +227,7 @@ var len;
 
 app.get("/todo", function (req, res) {
 
-  if (req.isAuthenticated()) {  console.log(req.session);  
+  if (req.isAuthenticated()) {  console.log(req.session);
 
     
 
@@ -238,6 +238,10 @@ app.get("/todo", function (req, res) {
         console.log(err);
 
       } else { console.log("i'm user:- "+user);
+      
+      global.calList = [];
+      global.perList = [];
+      global.shopList = [];
 
         user.sections.forEach(secId => { console.log(secId);
 
@@ -252,7 +256,7 @@ app.get("/todo", function (req, res) {
 
                 section.lists.forEach(listId => {
 
-                  DB.List.findOne({_id: listId}, function (err, list) {
+                  DB.List.findOne({_id: listId}, function (err, list) { console.log(':(', list);
 
                     if (err) {
 
@@ -260,10 +264,9 @@ app.get("/todo", function (req, res) {
 
                     } else {
 
-                      calList = [];
+                      // calList = [];
                       req.session.calList.push(list.title);
-                      calList = req.session.calList;
-                      len = calList.length;
+                      calList = req.session.calList;                      
 
                     }
                   });
@@ -281,8 +284,9 @@ app.get("/todo", function (req, res) {
 
                     } else {
 
-                      perList = [];
+                    //  perList = [];
                       req.session.perList.push(list.title);
+                      console.log(req.session);
                       perList = req.session.perList;
                     }
                   });
@@ -300,7 +304,7 @@ app.get("/todo", function (req, res) {
 
                     } else {
 
-                      shopList = [];
+                      // shopList = [];
                       req.session.shopList.push(list.title);
                       shopList = req.session.shopList;
 
@@ -312,11 +316,13 @@ app.get("/todo", function (req, res) {
             }
           });
         });
+       
 
-      res.redirect("/todo/calender/today");
+        res.redirect("/todo/calender/today");   
 
       }
     }); 
+    
 
   } else {
 
@@ -327,7 +333,7 @@ app.get("/todo", function (req, res) {
 
 app.get("/todo/:sec/:listName", function (req, res) {
 
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()) {  
 
     DB.User.findOne({_id: req.session.passport.user}, function (err, user) {
 
@@ -623,3 +629,4 @@ if (port == null || port == "") {
 app.listen(port || 1705, function () { //listioning on port 1705
   console.log("server is running on port 1705"); //sending msg of conformation
 });
+          

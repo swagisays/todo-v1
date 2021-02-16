@@ -208,3 +208,17 @@ text-transform: capitalize;
 color: #444444;
 }
 
+.ItemBox{
+    display: flex;
+    flex-direction: row;
+}
+input[type="checkbox"] {
+    border-radius: 50%;
+    border: 1px;
+    margin: 12px 5px;
+}
+
+li.list-item {
+    margin: 5px 14px;
+    font-size: 18px;
+}
