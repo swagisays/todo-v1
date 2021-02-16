@@ -209,7 +209,7 @@ app.post("/register", function (req, res) {
       console.log(err);
       res.redirect("/");
 
-    } else { console.log('1',user);
+    } else {
 
       passport.authenticate("local")(req, res, function () {
 
@@ -379,6 +379,8 @@ app.get("/todo/:sec/:listName", function (req, res) {
           } else {
 
             const listId = section.lists[listIndex];
+            req.session.items = [];
+           
 
             DB.List.findOne({_id: listId}, function (err, list) {
 
@@ -386,11 +388,12 @@ app.get("/todo/:sec/:listName", function (req, res) {
 
                 console.log(err);
 
-              } else {
+              } else { console.log('list 389', list); 
 
-                var listItems = list.items;
+              var listItems = list.itemArr;
+              console.log('listItem', listItems);
 
-                res.render("home", {
+                res.render("home", { 
                   sections: sectionArray,
                   calList: calList,
                   perList: perList,
@@ -548,24 +551,30 @@ app.post('/todo/:sec/:listName', function (req, res) {
 
             const listId = section.lists[listIndex];
 
-            DB.List.findOne({_id: listId}, function (err, list) {
+                            // CREAT NEW ITEM HEARE //////////
 
-              if (err) {
+                            DB.Item.create({value: req.body.value}, function (err, item) {
 
-                console.log(err);
+                              DB.List.findOneAndUpdate({_id: listId}, {$push: {items: [item._id],itemArr: [req.body.value]}}, {new: true}, function (err, item) {
+                  
+                                if (err) {
+                  
+                                  console.log(err);
+                  
+                                } else {
+                  
+                                  res.redirect("/todo/" + sec + "/" + listName);
+                  
+                                }
+                  
+                              });
+                            });
+            
+            
+            
+                            ////////////////////////////////////
 
-              } else {
 
-                const newItem = new DB.Item.ItemModel({value: req.body.value});
-
-                list.items.push(newItem);
-
-                list.save();
-
-                res.redirect("/todo/" + sec + "/" + listName);
-
-              }
-            });
           }
         });
       }
@@ -582,17 +591,19 @@ app.post('/del', function (req,res) {
   const checkedId = req.body.checkbox;
   const listId = req.body.listId;  
   var params = req.body.params;
+  console.log(params);
   clickedItem = req.body.listItem;
   console.log("myId "+req.body.listItem);
-  if (clickedItem != null) {
-    DB.List.findOne({"items._id": clickedItem  }, function (err,item) {
-      console.log("me"+item);
+  // if (clickedItem != null) {
+  //   DB.List.findOne({"items._id": clickedItem  }, function (err,item) {
+  //     console.log("me"+item);
       
-    })
+  //   })
     
-  }
+  // }
+  console.log('CHECKED ID',checkedId);
 
-  DB.List.findOneAndUpdate({_id: listId}, {$pull: {items: {_id: checkedId}}}, function(err, foundItem) {
+  DB.List.findOneAndUpdate({_id: listId}, {$pull: {itemArr: checkedId}}, function(err, foundItem) {
 
     if (err) {
       
@@ -600,7 +611,19 @@ app.post('/del', function (req,res) {
       
     } else {
 
-      res.redirect(params);
+      DB.Item.findOneAndDelete({value: checkedId}, function (err,done) {
+
+        if (err) {
+        
+        console.log(err);
+        
+      } else {
+        console.log('done',done);
+        res.redirect(params);
+        
+      }
+    
+  })      
       
     }
   });  

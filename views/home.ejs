@@ -78,13 +78,15 @@
          <% listItems.forEach(function(item){ %>
         <form id="form" action="/del" method="post">
             <% var params = "/todo/" + sec +"/"+ listName %>
+
             
-        <div class="ItemBox"><!-- each item box div-->
+        <div class="ItemBox"><!-- each item box div-->           
             
-            <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()"><!-- checkbox for todo list on change submit method of js-->
+            
+            <input name="checkbox" type="checkbox" value="<%= item %>" onChange="this.form.submit()"><!-- checkbox for todo list on change submit method of js-->
             <ul>
-            <li class="list-item"  onclick="document.getElementById('form').submit();" ><%=item.value%></li><!-- storing item while looping-->
-            <input type="hidden" name="listItem" value='<%= item._id %>'><!-- hidden input to send list title to server-->
+            <li class="list-item"  onclick="document.getElementById('form').submit();" ><%=item%></li><!-- storing item while looping-->
+            <input type="hidden" name="listItem" value='<%=  item %>'><!-- hidden input to send list title to server-->
         </ul>
             <input type="hidden" name="listId" value='<%= listId %>'><!-- hidden input to send list title to server-->
             <input type="hidden" name="params" value='<%= params %>'>
