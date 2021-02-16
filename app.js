@@ -348,10 +348,7 @@ app.get("/todo/:sec/:listName", function (req, res) {
         var cal_id = user.sections[0];
         var per_id = user.sections[1];
         var shop_id = user.sections[2];
-        console.log(listName);
-        console.log(calList);
-        console.log(perList);
-        console.log(shopList);
+
 
         if (sec === 'calender') {
 
@@ -388,10 +385,9 @@ app.get("/todo/:sec/:listName", function (req, res) {
 
                 console.log(err);
 
-              } else { console.log('list 389', list); 
+              } else { 
 
               var listItems = list.itemArr;
-              console.log('listItem', listItems);
 
                 res.render("home", { 
                   sections: sectionArray,
@@ -591,17 +587,41 @@ app.post('/del', function (req,res) {
   const checkedId = req.body.checkbox;
   const listId = req.body.listId;  
   var params = req.body.params;
-  console.log(params);
   clickedItem = req.body.listItem;
-  console.log("myId "+req.body.listItem);
-  // if (clickedItem != null) {
-  //   DB.List.findOne({"items._id": clickedItem  }, function (err,item) {
-  //     console.log("me"+item);
+ 
+  if (clickedItem != null) {
+
+    DB.List.findOne({_id: listId}, function (err,list) {
+
+      if (err) {
+        console.log(err);
+        
+      } else {
+
+       const itemIndex = list.itemArr.indexOf(clickedItem);
+       
+       const itemId = list.items[itemIndex];
       
-  //   })
+       DB.Item.findOne({_id: itemId}, function (err,item) {
+         if (err) {
+
+          console.log(err);
+           
+         } else {
+
+          console.log('found item',item);
+           
+         }
+         
+       })
+
+
+      }
+      
+    })
     
-  // }
-  console.log('CHECKED ID',checkedId);
+  }
+  
 
   DB.List.findOneAndUpdate({_id: listId}, {$pull: {itemArr: checkedId}}, function(err, foundItem) {
 
@@ -611,19 +631,37 @@ app.post('/del', function (req,res) {
       
     } else {
 
-      DB.Item.findOneAndDelete({value: checkedId}, function (err,done) {
+      DB.List.findOne({_id: listId}, function (err,list) {
+
+        if (err) {
+          console.log(err);
+          
+        } else {
+  
+         const itemIndex = list.itemArr.indexOf(checkedId);         
+
+         const itemId = list.items[itemIndex];
+         
+     DB.Item.findOneAndDelete({_id: itemId}, function (err,done) {
 
         if (err) {
         
         console.log(err);
         
       } else {
-        console.log('done',done);
+
         res.redirect(params);
         
       }
     
-  })      
+  })   
+  
+  
+        }
+        
+      })
+
+    
       
     }
   });  
