@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const ItemSchema = new Schema({// createing schema for items
     value: String,  // only contain a string element
     descreption: String,
-    day: Number,
-    time: Number
+    date: String,
+    time: String
 
   });
   const Item = mongoose.model("item", ItemSchema);//creating new colection name items

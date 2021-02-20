@@ -1,112 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ///////////////////////  -->
+
+    <link rel="stylesheet" href="venders/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+        integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+    <link rel="stylesgeet"
+        href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css">
+
+    <!--////////////////////////-->
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-
     <link rel="icon" href="img/favicon.ico" type="image/ico" sizes="20x20">
+
+
+
     <title>Busy Fox</title>
 </head>
 
 <body>
     <div class="home">
-    </div>
-    <nav class="side-nav">
-        <div class="profile">
-            <div class="profile-content">
-                <!-- <img class="profile-pic" src="./img/profile-pic.svg" alt="user profile"> -->
-                <img class="profile-pic" src=<%= avtar %> >
-                <p class="username"><%= username %></p>
-                <a class="edit-btn" href="#">Edit</a>
+        <div class="bg">
+            <img class="bg-img" src="img/home-bg.jpg" alt="backgroundimg">
+
+        </div>
+        <nav class="side-nav">
+
+            <a href="#" class="toggle-button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </a>
+
+            <div class="nav-resp">
+
+
+            <div class="profile">
+                <div class="profile-content">
+                    <% if (!avtar) { %>
+                    <img class="profile-pic" src="img/profile-pic.svg" alt="user profile">
+                    <% } else { %>
+                    <img class="profile-pic" src="<%= avtar %>">
+                    <% } %>
+                    <p class="username"><%= name %></p>
+                    <a class="edit-btn" href="/logout">Logout</a>
+                </div>
+
+                <button class="list-btn btn" type="submit">Creat List</button>
+
             </div>
 
-            <button class="list-btn btn" type="button">Creat List</button>
-
-        </div>
-
-        <div class="sections">
-            <% sections.forEach(function(secTitle){ %>
-            <section class="sec-div">
-                <% var link = "/todo/"+ secTitle %>
-                <a class="sec-btn" href=<%= link %>><%=secTitle%></a>
-                <ul>
-                    <% if(secTitle === 'calender'){ %>
-                    <% calList.forEach(function(listTitle){ %>                    
+            <div class="sections">
+                <% sections.forEach(function(secTitle){ %>
+                <section class="sec-div">
+                    <% var link = "/todo/"+ secTitle %>
+                    <p class="sec-btn" > <%=secTitle%> </p>
+                    <ul class="sec-item" >
+                        <% if(secTitle === 'calender'){ %>
+                        <% calList.forEach(function(listTitle){ %>
                         <% var link = "/todo/calender/"+ listTitle %>
-                    <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>                    
-                    <%  })  %>
-                    <!-- for each loop end -->
+                        <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
+                        <%  })  %>
+                        
 
-                    <% } %>
+                        <% } %>
 
-                    <% if(secTitle === 'personal'){ %>
-                    <% perList.forEach(function(listTitle){ %>
+                        <% if(secTitle === 'personal'){ %>
+                        <% perList.forEach(function(listTitle){ %>
                         <% var link = "/todo/personal/"+ listTitle %>
                         <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
-                    <%  })  %>
-                    <!-- for each loop end -->
+                        <%  })  %>
+                       
 
-                    <% } %>
+                        <% } %>
 
-                    <% if(secTitle === 'shoping'){ %>
-                    <% shopList.forEach(function(listTitle){ %>
+                        <% if(secTitle === 'shoping'){ %>
+                        <% shopList.forEach(function(listTitle){ %>
                         <% var link = "/todo/shoping/"+ listTitle %>
                         <li><a class="sec-item-btn " href=<%= link %>><%= listTitle %></a></li>
-                    <%  })  %>
-                    <!-- for each loop end -->
+                        <%  })  %>
+                       
+                        <% } %>
 
-                    <% } %>
-
-                </ul>
-
+                    </ul>
 
 
-            </section>
 
-            <%  })  %>
-            <!-- for each loop end -->
+                </section>
 
+                <%  })  %>
+                <!-- for each loop end -->
+            
+
+            </div>
+        </div>
+    </div>
+        </nav>
+        <div class="main-box">
+            <div class="main">
+                <div class="task-cal-btn">
+                    <button class="todo">todo</button>
+                    <button class="des">description</button>
+                </div>
+            <div class="right-div div-task">
+                <% if(noItem === false) { %>
+                    <div class="tasks">
+                <% listItems.forEach(function(item){ %>
+                <form id="<%= item %>" action="/del" method="post">
+                    <% var params = "/todo/" + sec +"/"+ listName %>
+                   
+
+                    <div class="ItemBox">
+                        <!-- each item box div-->
+
+
+                        <input name="checkbox" type="checkbox" value="<%= item %>" onChange="this.form.submit()">
+                        <!-- checkbox for todo list on change submit method of js-->
+                        <ul>
+                            <li class="list-item" onclick="document.getElementById('<%= item %>').submit();"><%=item %>
+                            </li><!-- storing item while looping-->
+                            <input type="hidden" name="listItem" value='<%=  item %>'>
+                            <!-- hidden input to send list title to server-->
+                        </ul>
+                        <input type="hidden" name="listId" value='<%= listId %>'>
+                        <!-- hidden input to send list title to server-->
+                        <input type="hidden" name="params" value='<%= params %>'>
+
+
+                    </div><!-- item box end -->
+                
+                </form>
+
+                <%  })  %>
+            
+                <% } %>
+
+                <% var params = "/todo/" + sec +"/"+ listName %>
+                <form action=<%= params %> method="post">
+                    <div class="add-item">
+                        <input class="item"  placeholder="click me to add new task" type="text" name="value" autofocus maxlength="25" >
+                        <button class="add-btn" type="submit"><img src="img/add.png" ></button>
+                    </div>
+                </form>
+            </div>
+            </div>
+            <% if(noItem === false) { %>
+            <div class="right-div div-cal">
+
+                <% params = params + "/" + clickedItem %>
+                <form action="<%= params%>" method="post">
+
+                    <input class="cal-input" type="text" name="itemValue" value="<%= clickedItem %>">
+                    <input type="hidden" name="listId" value='<%= listId %>'>
+
+                    <!-- //////////  -->
+
+                    <div class="col-md-3">
+                        <div class="form-group date-div">
+                            <% if (!date) { %>
+                            <input type="text" name="date" class="form-control datepicker" value="<%= today %>">
+                            <% } else { %>
+                            <input type="text" name="date" class="form-control datepicker" value="<%= date %>">
+                            <% } %>
+                           
+                        </div>
+                        <div class="form-group time-div">
+                            <% if (!gotTime) { %>
+                            <input type="text" name="time" class="form-control timepicker" value="<%= time %>">
+                            <% } else { %>
+                                <input type="text" name="time" class="form-control timepicker" value="<%= gotTime %>">
+                                <% } %>
+                        </div>
+                    </div>
+
+                    <textarea class="descript" name="description" placeholder="enter your description..." cols="30" rows="6"><%= description %></textarea>
+                    <button class="btn save-btn" type="submit">save</button>
+
+                    <!-- /////////////// -->
+
+
+                </form>
+
+
+            </div>
+            </div>
+            <% } %>
 
         </div>
-    </nav>
 
-    <div class="right-div div-task">        
+        <!-- /////////// -->
 
-         <% listItems.forEach(function(item){ %>
-        <form id="<%= item %>" action="/del" method="post">
-            <% var params = "/todo/" + sec +"/"+ listName %>
-
+        <div class="customLi">
+            <% var link = "/todo/"+ sec %>
+            <form action="<%= link %>" method="post">
+    
+                <input class="item" placeholder="click me to add new task" type="text" name="listTitle">
+                <button class="add-btn " type="submit" ><img src="img/add.png" ></button>           
             
-        <div class="ItemBox"><!-- each item box div-->           
             
-            
-            <input name="checkbox" type="checkbox" value="<%= item %>" onChange="this.form.submit()"><!-- checkbox for todo list on change submit method of js-->
-            <ul>
-            <li class="list-item"  onclick="document.getElementById('<%= item %>').submit();" ><%=item %></li><!-- storing item while looping-->
-            <input type="hidden" name="listItem" value='<%=  item %>'><!-- hidden input to send list title to server-->
-        </ul>
-            <input type="hidden" name="listId" value='<%= listId %>'><!-- hidden input to send list title to server-->
-            <input type="hidden" name="params" value='<%= params %>'>
-        
-          
-        </div><!-- item box end -->    
-        </form>
+            </form>
+        </div>
 
-          <%  })  %>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+        </script>
+        <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+            integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous">
+        </script>
 
-        <% var params = "/todo/" + sec +"/"+ listName %>
-        <form  action=<%= params %> method="post">
-            <input type="text" name="value">
-            <button type="submit">+</button>
-        </form>
-    </div>
-    <div class="right-div div-cal"></div>
+        <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+            integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous">
+        </script>
+        <script src="https://rawgit.com/creativetimofficial/material-kit/master/assets/js/core/jquery.min.js"></script>
+        <script
+            src="https://rawgit.com/creativetimofficial/material-kit/master/assets/js/core/bootstrap-material-design.min.js">
+        </script>
+        <script src="https://rawgit.com/creativetimofficial/material-kit/master/assets/js/plugins/moment.min.js">
+        </script>
+        <script
+            src="https://rawgit.com/creativetimofficial/material-kit/master/assets/js/plugins/bootstrap-datetimepicker.js">
+        </script>
+        <script src="https://rawgit.com/creativetimofficial/material-kit/master/assets/js/material-kit.js"></script>
+        <script src="venders/index.js"></script>
+        <script src="js/index.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="js/index.js"></script>
+       
+    
 </body>
 
 </html>

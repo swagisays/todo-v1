@@ -1,3 +1,5 @@
+
+
 window.onload= function (){
     const toggleButton = document.getElementsByClassName('toggle-button') [0]
     const navlist = document.getElementsByClassName('navbar-links') [0]
@@ -77,21 +79,12 @@ window.onload= function (){
         swagi2();
         reg();
         
-    }
-
-
-
-    // closebutton.addEventListener('click',()=>{
-    //     body.classList.toggle('login-resp')
-    //     auth.classList.toggle('display')
-    // })
-
-    // closebuttonLi.addEventListener('click',()=>{
-    //     body.classList.toggle('login-resp')
-    //     authlogin.classList.toggle('dis')
-    // })
- 
+    } 
 }
+
+
+
+
 
 
 

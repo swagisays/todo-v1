@@ -1,5 +1,5 @@
 require('dotenv').config();
-const express = require('express');// requiring express
+const express = require('express'); // requiring express
 const bodyParser = require('body-parser'); // requiring body parser
 const mongoose = require('mongoose'); //requiring mongoose for db
 const passportLocalMongoose = require("passport-local-mongoose");
@@ -12,13 +12,17 @@ const Schema = mongoose.Schema;
 
 const app = express(); // initialize express to app
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { expires: new Date(253402300000000) }
+  cookie: {
+    expires: new Date(253402300000000)
+  }
 }));
 
 app.use(passport.initialize());
@@ -69,10 +73,12 @@ passport.use(new FacebookStrategy({
   },
   function (accessToken, refreshToken, profile, cb) {
 
-    console.log(profile);
-    
 
-    DB.User.findOne({facebookId: profile.id}, function (err, user) {
+
+
+    DB.User.findOne({
+      facebookId: profile.id
+    }, function (err, user) {
 
       if (err) {
 
@@ -84,11 +90,11 @@ passport.use(new FacebookStrategy({
 
           const user = new DB.User({
             facebookId: profile.id,
-            username: profile.displayName
+            name: profile.displayName
           });
 
           user.save();
-          
+
           const newUser = require("./register/register");
           newUser(user);
 
@@ -111,9 +117,11 @@ passport.use(new GoogleStrategy({
   },
   function (accessToken, refreshToken, profile, cb) {
 
-    console.log(profile);
 
-    DB.User.findOne({googleId: profile.id}, function (err, user) {
+
+    DB.User.findOne({
+      googleId: profile.id
+    }, function (err, user) {
 
       if (err) {
 
@@ -125,7 +133,8 @@ passport.use(new GoogleStrategy({
 
           const user = new DB.User({
             googleId: profile.id,
-            username: profile.displayName,
+            name: profile.displayName,
+            username: profile.email,
             avtar: profile.photos[0].value
           });
           user.save();
@@ -136,7 +145,7 @@ passport.use(new GoogleStrategy({
           return cb(err, user);
 
         } else {
-          
+
           return cb(err, user);
 
         }
@@ -147,41 +156,45 @@ passport.use(new GoogleStrategy({
 
 
 
-console.log("they got me");
-// let calList;
-// let perList;
-// let shopList;
+
 
 app.get("/", function (req, res) {
   if (req.isUnauthenticated()) {
     req.session.calList = [];
     req.session.perList = [];
-    req.session.shopList = [];    
+    req.session.shopList = [];
+
   }
-  res.render("index");  
+  res.render("index");
 
 });
 
 app.get('/auth/google', passport.authenticate('google',
 
-{scope: ['profile','email']}
+  {
+    scope: ['profile', 'email']
+  }
 
 ));
 
-app.get('/auth/google/todo', passport.authenticate('google', {failureRedirect: '/' }), function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/todo');
+app.get('/auth/google/todo', passport.authenticate('google', {
+  failureRedirect: '/'
+}), function (req, res) {
+  // Successful authentication, redirect home.
+  res.redirect('/todo');
 
-  });
+});
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
 
-app.get('/auth/facebook/todo', passport.authenticate('facebook', { failureRedirect: '/' }), function (req, res) {
-    
-    res.redirect('/todo');
+app.get('/auth/facebook/todo', passport.authenticate('facebook', {
+  failureRedirect: '/'
+}), function (req, res) {
 
-  });
+  res.redirect('/todo');
+
+});
 
 app.get("/logout", function (req, res) {
 
@@ -190,19 +203,18 @@ app.get("/logout", function (req, res) {
 
 });
 
-const ids = {
-  u_id: null,
-  cal_id: null,
-  per_id: null,
-  shop_id: null
-}
 
+let noItem = true;
 
 const sectionArray = ['calender', 'personal', 'shoping'];
 
 app.post("/register", function (req, res) {
 
-  DB.User.register({username: req.body.username, sections: []}, req.body.password, function (err, user) {
+  DB.User.register({
+    username: req.body.username,
+    name: req.body.name,
+    sections: []
+  }, req.body.password, function (err, user) {
 
     if (err) {
 
@@ -223,40 +235,45 @@ app.post("/register", function (req, res) {
   });
 });
 
-var len;
+
 
 app.get("/todo", function (req, res) {
 
-  if (req.isAuthenticated()) {  console.log(req.session);
+  if (req.isAuthenticated()) {
 
-    
 
-    DB.User.findOne({_id: req.session.passport.user}, function (err, user) {
+
+    DB.User.findOne({
+      _id: req.session.passport.user
+    }, function (err, user) {
 
       if (err) {
 
         console.log(err);
 
-      } else { console.log("i'm user:- "+user);
-      
-      global.calList = [];
-      global.perList = [];
-      global.shopList = [];
+      } else {
 
-        user.sections.forEach(secId => { console.log(secId);
+        global.calList = [];
+        global.perList = [];
+        global.shopList = [];
 
-          DB.Section.findOne({_id: secId}, function (err, section) { console.log(':(');
+        user.sections.forEach(secId => {
+
+          DB.Section.findOne({
+            _id: secId
+          }, function (err, section) {
 
             if (err) {
               console.log(err);
 
-            } else { console.log(section);
-
-              if (section.title == 'calender') { console.log("cal");
+            } else {
+              if (section.title == 'calender') {
 
                 section.lists.forEach(listId => {
 
-                  DB.List.findOne({_id: listId}, function (err, list) { console.log(':(', list);
+                  DB.List.findOne({
+                    _id: listId
+                  }, function (err, list) {
 
                     if (err) {
 
@@ -266,17 +283,18 @@ app.get("/todo", function (req, res) {
 
                       // calList = [];
                       req.session.calList.push(list.title);
-                      calList = req.session.calList;                      
+                      calList = req.session.calList;
 
                     }
                   });
                 });
 
-              } else if (section.title == 'personal') { console.log("per");
-
+              } else if (section.title == 'personal') {
                 section.lists.forEach(listId => {
 
-                  DB.List.findOne({_id: listId}, function (err, list) {
+                  DB.List.findOne({
+                    _id: listId
+                  }, function (err, list) {
 
                     if (err) {
 
@@ -284,19 +302,21 @@ app.get("/todo", function (req, res) {
 
                     } else {
 
-                    //  perList = [];
+                      //  perList = [];
                       req.session.perList.push(list.title);
-                      console.log(req.session);
+
                       perList = req.session.perList;
                     }
                   });
                 });
 
-              } else if (section.title == 'shoping') { console.log("shop");
+              } else if (section.title == 'shoping') {
 
                 section.lists.forEach(listId => {
 
-                  DB.List.findOne({_id: listId}, function (err, list) {
+                  DB.List.findOne({
+                    _id: listId
+                  }, function (err, list) {
 
                     if (err) {
 
@@ -316,13 +336,13 @@ app.get("/todo", function (req, res) {
             }
           });
         });
-       
 
-        res.redirect("/todo/calender/today");   
+
+        res.redirect("/todo/calender/today");
 
       }
-    }); 
-    
+    });
+
 
   } else {
 
@@ -333,9 +353,11 @@ app.get("/todo", function (req, res) {
 
 app.get("/todo/:sec/:listName", function (req, res) {
 
-  if (req.isAuthenticated()) {  
+  if (req.isAuthenticated()) {
 
-    DB.User.findOne({_id: req.session.passport.user}, function (err, user) {
+    DB.User.findOne({
+      _id: req.session.passport.user
+    }, function (err, user) {
 
       if (err) {
 
@@ -367,7 +389,9 @@ app.get("/todo/:sec/:listName", function (req, res) {
 
         }
 
-        DB.Section.findOne({ _id: secId}, function (err, section) {
+        DB.Section.findOne({
+          _id: secId
+        }, function (err, section) {
 
           if (err) {
 
@@ -377,32 +401,148 @@ app.get("/todo/:sec/:listName", function (req, res) {
 
             const listId = section.lists[listIndex];
             req.session.items = [];
-           
 
-            DB.List.findOne({_id: listId}, function (err, list) {
+
+            DB.List.findOne({
+              _id: listId
+            }, function (err, list) {
 
               if (err) {
 
                 console.log(err);
 
-              } else { 
+              } else {
 
-              var listItems = list.itemArr;
 
-                res.render("home", { 
-                  sections: sectionArray,
-                  calList: calList,
-                  perList: perList,
-                  shopList: shopList,
-                  sec: sec,
-                  listName: listName,
-                  listId:list._id,
-                  listItems: listItems,
-                  username: user.username,
-                  avtar: user.avtar
-                });
 
-              }
+
+
+                ///// date //////
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();          
+                
+
+                function formatAMPM(date) {
+                  var hours = date.getHours();
+                  var minutes = date.getMinutes();
+                  var ampm = hours >= 12 ? 'pm' : 'am';
+                  hours = hours % 12;
+                  hours = hours ? hours : 12; // the hour '0' should be '12'
+                  minutes = minutes < 10 ? '0'+minutes : minutes;
+                   var strTime = hours + ':' + minutes;
+                  return strTime;
+                }
+                var time = formatAMPM(today);
+                console.log(time);
+                
+                
+
+                today = mm + '/' + dd + '/' + yyyy;
+
+                //// date close ///////
+
+                if (user.name.length >12) {
+
+                  var name = user.name.slice(0, 11) + '...';
+                  
+                }else{
+                  var name = user.name;
+                }
+
+                if (list.itemArr.length === 0) {                 
+
+console.log(time);                   
+                  res.render("home", {
+                    sections: sectionArray,
+                    calList: calList,
+                    perList: perList,
+                    shopList: shopList,
+                    sec: sec,
+                    listName: listName,
+                    listId: list._id,                    
+                    username: user.username,
+                    name: name,
+                    avtar: user.avtar,
+                    time: time,
+                    secTitle:  req.params.sec,               
+                    today: today,                    
+                    noItem: true
+                  });                 
+                  
+                } else {
+
+                  if (!req.session.clickedItem) {
+
+                    var firstItemId = list.items[0];
+
+                    DB.Item.findOne({_id: firstItemId}, function (err,item) {
+  
+                      if (err) {
+  
+                        console.log(err);
+                        
+                      } else {
+                        req.session.clickedItem = item;
+                        console.log(item);
+                        
+                    res.render("home", {
+                      sections: sectionArray,
+                      calList: calList,
+                      perList: perList,
+                      shopList: shopList,
+                      sec: sec,
+                      listName: listName,
+                      listId: list._id,
+                      listItems: list.itemArr,
+                      username: user.username,
+                      name: name,
+                      avtar: user.avtar,
+                      today: today,
+                      time: time,                      
+                      clickedItem: req.session.clickedItem.value,
+                      description: req.session.clickedItem.descreption,
+                      gotTime: time,
+                      date: req.session.clickedItem.date,
+                      noItem: false
+                    });
+                      }
+                      
+                    })
+
+
+                    
+                  } else {
+
+                    res.render("home", {
+                      sections: sectionArray,
+                      calList: calList,
+                      perList: perList,
+                      shopList: shopList,
+                      sec: sec,
+                      listName: listName,
+                      listId: list._id,
+                      listItems: list.itemArr,
+                      username: user.username,
+                      name: name,
+                      avtar: user.avtar,
+                      today: today,
+                        clickedItem: req.session.clickedItem.value,
+                      description: req.session.clickedItem.descreption,
+                      time: time,
+                      gotTime: req.session.clickedItem.time,
+                      date: req.session.clickedItem.date,
+                      noItem: false
+                    });
+                    
+
+
+                  }
+
+ 
+                }
+               }
             });
           }
         });
@@ -419,7 +559,9 @@ app.post("/todo/:sec", function (req, res) {
 
   if (req.isAuthenticated()) {
 
-    DB.User.findOne({_id: req.session.passport.user}, function (err, user) {
+    DB.User.findOne({
+      _id: req.session.passport.user
+    }, function (err, user) {
 
       if (err) {
 
@@ -434,9 +576,19 @@ app.post("/todo/:sec", function (req, res) {
 
         if (sec === 'calender') {
 
-          DB.List.create({title: req.body.listTitle}, function (err, list) {
+          DB.List.create({
+            title: req.body.listTitle
+          }, function (err, list) {
 
-            DB.Section.findOneAndUpdate({ _id: cal_id}, {$push: {lists: [list._id]}}, {new: true}, function (err, list) {
+            DB.Section.findOneAndUpdate({
+              _id: cal_id
+            }, {
+              $push: {
+                lists: [list._id]
+              }
+            }, {
+              new: true
+            }, function (err, list) {
 
               if (err) {
 
@@ -454,9 +606,19 @@ app.post("/todo/:sec", function (req, res) {
 
         } else if (sec === 'personal') {
 
-          DB.List.create({title: req.body.listTitle}, function (err, list) {
-            
-            DB.Section.findOneAndUpdate({_id: per_id}, {$push: {lists: [list._id]}}, {new: true}, function (err, list) {
+          DB.List.create({
+            title: req.body.listTitle
+          }, function (err, list) {
+
+            DB.Section.findOneAndUpdate({
+              _id: per_id
+            }, {
+              $push: {
+                lists: [list._id]
+              }
+            }, {
+              new: true
+            }, function (err, list) {
 
               if (err) {
 
@@ -474,9 +636,19 @@ app.post("/todo/:sec", function (req, res) {
 
         } else if (sec === 'shoping') {
 
-          DB.List.create({title: req.body.listTitle}, function (err, list) {
+          DB.List.create({
+            title: req.body.listTitle
+          }, function (err, list) {
 
-            DB.Section.findOneAndUpdate({_id: shop_id}, {$push: {lists: [list._id]}}, {new: true}, function (err, list) {
+            DB.Section.findOneAndUpdate({
+              _id: shop_id
+            }, {
+              $push: {
+                lists: [list._id]
+              }
+            }, {
+              new: true
+            }, function (err, list) {
 
               if (err) {
 
@@ -506,7 +678,9 @@ app.post('/todo/:sec/:listName', function (req, res) {
 
   if (req.isAuthenticated()) {
 
-    DB.User.findOne({_id: req.session.passport.user}, function (err, user) {
+    DB.User.findOne({
+      _id: req.session.passport.user
+    }, function (err, user) {
 
       if (err) {
 
@@ -537,7 +711,9 @@ app.post('/todo/:sec/:listName', function (req, res) {
 
         }
 
-        DB.Section.findOne({_id: secId}, function (err, section) {
+        DB.Section.findOne({
+          _id: secId
+        }, function (err, section) {
 
           if (err) {
 
@@ -547,30 +723,42 @@ app.post('/todo/:sec/:listName', function (req, res) {
 
             const listId = section.lists[listIndex];
 
-                            // CREAT NEW ITEM HEARE //////////
+            // CREAT NEW ITEM HEARE //////////
 
-                            DB.Item.create({value: req.body.value}, function (err, item) {
+            DB.Item.create({
+              value: req.body.value
+            }, function (err, item) {
 
-                              DB.List.findOneAndUpdate({_id: listId}, {$push: {items: [item._id],itemArr: [req.body.value]}}, {new: true}, function (err, item) {
-                  
-                                if (err) {
-                  
-                                  console.log(err);
-                  
-                                } else {
-                  
-                                  res.redirect("/todo/" + sec + "/" + listName);
-                  
-                                }
-                  
-                              });
-                            });
-            
-            
-            
-                            ////////////////////////////////////
+              req.session.clickedItem = item;
+              noItem = false;
+
+              DB.List.findOneAndUpdate({
+                _id: listId
+              }, {
+                $push: {
+                  items: [item._id],
+                  itemArr: [req.body.value]
+                }
+              }, {
+                new: true
+              }, function (err, item) {
+
+                if (err) {
+
+                  console.log(err);
+
+                } else {
+
+                  res.redirect("/todo/" + sec + "/" + listName);
+
+                }
+
+              });
+            });
 
 
+
+            ////////////////////////////////////
           }
         });
       }
@@ -582,112 +770,206 @@ app.post('/todo/:sec/:listName', function (req, res) {
 
 var clickedItem;
 
-app.post('/del', function (req,res) {
+app.post('/del', function (req, res) {
 
   const checkedId = req.body.checkbox;
-  const listId = req.body.listId;  
+  const listId = req.body.listId;
   var params = req.body.params;
-  clickedItem = req.body.listItem;
- 
-  if (clickedItem != null) {
+  var clickedItem = req.body.listItem;
+  
 
-    DB.List.findOne({_id: listId}, function (err,list) {
+
+
+  if (clickedItem != null & checkedId == null) {
+
+    DB.List.findOne({ _id: listId}, function (err, list) {
 
       if (err) {
         console.log(err);
-        
+
       } else {
+        console.log(clickedItem);
+        const itemIndex = list.itemArr.indexOf(clickedItem);
+        var itemId = list.items[itemIndex];
 
-       const itemIndex = list.itemArr.indexOf(clickedItem);
-       
-       const itemId = list.items[itemIndex];
-      
-       DB.Item.findOne({_id: itemId}, function (err,item) {
-         if (err) {
+        DB.Item.findOne({ _id: itemId}, function (err, item) {
+          if (err) {
 
-          console.log(err);
-           
-         } else {
+            console.log(err);
 
-          console.log('found item',item);
-           
-         }
-         
-       })
+          } else {
 
-
+            req.session.clickedItem = item;
+            console.log(item);     
+             res.redirect(params);   
+          }
+        });
       }
-      
-    })
+         
+    });
+
+
     
   }
+
+  if(checkedId != null){
+
+    DB.List.findOne({_id: listId}, function (err, list) {
+
+      if (err) {
+        console.log(err);
   
-
-  DB.List.findOneAndUpdate({_id: listId}, {$pull: {itemArr: checkedId}}, function(err, foundItem) {
-
-    if (err) {
-      
-      console.log(err);
-      
-    } else {
-
-      DB.List.findOne({_id: listId}, function (err,list) {
-
-        if (err) {
-          console.log(err);
+      } else {
+  
+        const itemIndex = list.itemArr.indexOf(checkedId);
+  
+        const itemId = list.items[itemIndex];
+        console.log('itemIndex', itemIndex);
+        console.log(itemIndex - 1);
+        var index = itemIndex - 1;
+        if (index === -1) {
+          noItem = true;
           
         } else {
   
-         const itemIndex = list.itemArr.indexOf(checkedId);         
-
-         const itemId = list.items[itemIndex];
-         
-     DB.Item.findOneAndDelete({_id: itemId}, function (err,done) {
-
-        if (err) {
-        
-        console.log(err);
-        
-      } else {
-
-        res.redirect(params);
-        
-      }
-    
-  })   
+          const itemIdBefore = list.items[index];
+          DB.Item.findOne({_id: itemIdBefore}, function (err, item) {
   
-  
+            if (err) {
+              console.log(err);
+              
+            } else {
+              req.session.clickedItem = item;
+          console.log(req.session.clickedItem);
+            }
+            
+          })
+          
         }
         
-      })
+  
+  
+        DB.Item.findOneAndDelete({_id: itemId}, function (err, done) {
+  
+          if (err) {
+  
+            console.log(err);
+  
+          } else {
+  
+            DB.List.findOneAndUpdate({_id: listId}, {$pull: {itemArr: checkedId, items: itemId }}, function (err, delItem) {
+  
+              if (err) {
+  
+                console.log(err);
+  
+              } else {
+  
+                res.redirect(params);
+  
+              }
+  
+            });
+  
+  
+          }
+  
+        })
+      }
+  
+    })//    
+  }
 
-    
-      
-    }
-  });  
+
+
 });
 
-app.post('/item',function (req,res) {
+app.post('/todo/:sec/:listName/:item', function (req, res) {
 
-  console.log(req.body.list-item);
-  
-})
+  const itemValue = req.params.item;
+  var listId = req.body.listId;
+  var params = "/todo/" + req.params.sec + "/" + req.params.listName;
+  DB.List.findOne({
+    _id: listId
+  }, function (err, list) {
 
-app.post('/login', passport.authenticate('local'),function (req, res) {
-   
-    res.redirect("/todo");
+    if (err) {
 
-  });
+      console.log(err);
+
+    } else {
+
+      const itemIndex = list.itemArr.indexOf(itemValue);
+
+      DB.List.updateOne({
+        _id: listId,
+        itemArr: itemValue
+      }, {
+        $set: {
+          "itemArr.$": req.body.itemValue
+        }
+      }, function (err) {
+        if (err) {
+
+          console.log(err);
+
+        } else {
+
+
+          const itemId = list.items[itemIndex];
+
+          const modItem = {
+            value: req.body.itemValue,
+            descreption: req.body.description,
+            date: req.body.date,
+            time: req.body.time
+          }
+
+          DB.Item.findOneAndUpdate({
+            _id: itemId
+          }, modItem, {
+            new: true
+          }, function (err, item) {
+
+            if (err) {
+
+              console.log(err);
+
+            } else {
+
+
+              req.session.clickedItem = item;
+              console.log('change item', item);
+              res.redirect(params);
+
+
+            }
+
+          })
+        }
+
+      })
+
+    }
+
+  })
+
+});
+
+app.post('/login', passport.authenticate('local'), function (req, res) {
+
+  res.redirect("/todo");
+
+});
 
 
 
 let port = process.env.PORT;
 
 if (port == null || port == "") {
-  port =1705;
+  port = 1705;
 }
 
 app.listen(port || 1705, function () { //listioning on port 1705
   console.log("server is running on port 1705"); //sending msg of conformation
 });
-          

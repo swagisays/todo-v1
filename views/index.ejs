@@ -3,6 +3,230 @@
 
 <head>
   <meta charset="UTF-8">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="img/favicon.ico" type="image/ico" sizes="20x20">
+  <title>Busy Fox</title>
+</head>
+
+<body>
+  <div class="body">
+    <nav class="nav ">
+      
+      <a href="#" class="toggle-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a>
+
+      <img class="logo" src="img/logo.svg" alt="busy fox logo">
+      <div class="navbar-links">
+        <ul>
+          <li><a  href="#">home</a></li>
+          
+          <li><a href="#">privcy</a></li>
+          
+          <li><a  href="#">contect us</a></li>
+          
+          <li><button class="login-btn btnBorder" onload="click">login</button></li>
+        </ul>
+      </div>
+
+    </nav>
+
+
+    <header class="header">
+      <div class="text-box">
+        <h1 class="heading">Organize your life in seconds</h1>
+        <p class="pera">Busy fox is gonna be the best tool to Organize your day, and don't let you forget important events.
+        </p>
+        <button class="register-btn btn-my" onload="click">get started for free</button>
+      </div>
+
+      <img src="img/phone.svg" alt="phone busy fox" class="phone">
+
+    </header>
+
+
+    <div class="simple-section">
+      <img src="img/left-div.svg" alt="bus fox todo list" class="simple-section-img">
+      <div class="text-box2">
+        <h2 class="heading2">simple way to organize your weekday</h2>
+        <p class="pera2">Organize your tasks, lists and calender in one place. Busy fox is easy to use and syncs
+          seamlessly across all your devices.</p>
+      </div>
+    </div>
+    <div class="calender-section">
+      <div class="text-box3">
+        <h2 class="heading3">sync your google calender</h2>
+        <p class="pera3"> we will fill powers of google calender in busy fox very soon to make your life more easy and Organized.</p>
+
+      </div>
+      <img src="img/calender.png"  class="calender">
+    </div>
+
+    <div class="text-box4">
+      <h2 class="heading4">Organize anything with anyone, anywhere</h2>
+      <p class="pera4">Wherever you are, take your to do list with you. Access Busy Fox on mobile, laptop, desktop and even your tablet
+         Your tasks are automatically synced across all of your devices, giving you ultimate
+        control.
+      </p>
+
+    </div>
+    <img class="device-canvas" src="img/device_canvas.webp" alt="devices busy fox">
+  </div>
+  <div  class="login-card card auth-login">
+    <div class="card-body">
+      <button class="close-btn-login btn">X</button>
+      <h2 class="text-center">Login</h2>
+      <br>
+      <form action="/login" method="POST">
+        <div class="form-group">
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="email" placeholder="Enter password" name="pswd">
+        </div>
+        <button type="submit" id="button" class="btn btn-primary deep-purple btn-block ">Submit</button>
+    <br>
+        <br>
+      </form>
+       
+        <div id="btn" class="text-center">
+       <button type="button" class="btn  btn-primary btn-circle btn-sm"><a href="/auth/facebook" class="fa link fa-facebook"></a></button>
+       <button type="button" class="btn  btn-danger btn-circle btn-sm"><a href="/auth/google" class="fa link fa-google"></a></button>       
+       <button class="auth-reg  btn btn-info btn-circle btn-sm" >R</button>
+      
+       </div>
+    
+      
+    </div>
+  </div>
+
+  <div  class="login-card card auth">
+    <div class="card-body">
+      <button class="close-btn btn">X</button>
+      <h2 class="text-center">Register</h2>
+      
+      <br>
+      <form action="/register" method="POST">
+        <div class="form-group">
+          <input type="text" class="form-control" id="email" placeholder="Enter your name" name="name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" id="email" placeholder="Enter your email" name="username" required>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="email" placeholder="Enter password" name="password" required minlength="6">
+        </div>
+        <button type="submit" id="button" class="btn btn-primary deep-purple btn-block ">Submit</button>
+    <br>
+        <br>
+      </form>
+       
+        <div id="btn" class="text-center">
+       <button type="button" class="btn link btn-primary btn-circle btn-sm"><a href="/auth/facebook" class="fa link fa-facebook"></a></button>
+       <button type="button" class="btn link btn-danger btn-circle btn-sm"><a href="/auth/google" class="fa link fa-google"></a></button> 
+       <button class="auth-btn btn btn-info btn-circle btn-sm" >L</button>
+       </div>
+    
+      
+    </div>
+  </div>
+  
+  <script src="js/main.js"></script>
+</body>
+
+</html>
+
+<!-- <div class="auth-flex">
+    <div class="auth">
+      <div class="auth-left-div ">
+        <div class="formTitle">
+          <h2 class="auth-heading ">register</h2>
+
+        </div>
+
+        <form class="auth-form" action="/register" method="post">
+          <div class="data">
+            <label>Name</label>
+            <input class="input" type="text" placeholder="Enter Your Name" name="name"></div>
+          <div class="data">
+            <label>Email</label>
+            <input class="input" type="email" placeholder="Enter Your Email" name="username" required>
+          </div>
+          <div class="data">
+            <label>Password</label>
+            <input class="input" type="password" placeholder="Enter Your Password" name="password" required>
+          </div>
+          <button class="submit-btn btn" type="submit">Register</button>
+
+        </form>
+
+      </div>
+      <div class="auth-right-div">
+        <div class="auth-btns-div">
+          <a href="#" class="social-button" id="google-connect"> <span>Google</span></a>
+          <a href="#" class="social-button" id="facebook-connect"> <span>Facebook</span></a>
+          <a class="btn auth-btn" href="/login" role="button">Login</a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="auth-login">
+      <div class="auth-left-div ">
+        <div class="formTitle">
+          <h2 class="auth-heading ">Login</h2>
+
+        </div>
+
+        <form class="auth-form" action="/login" method="post">
+          <div class="data">
+            <label>Email</label>
+            <input class="input" type="email" name="username" required>
+          </div>
+          <div class="data">
+            <label>Password</label>
+            <input class="input" type="password" name="password" required>
+          </div>
+          <button class="submit-btn btn" type="submit">Login</button>
+
+        </form>
+
+      </div>
+      <div class="auth-right-div">
+        <div class="auth-btns-div">
+          <a href="#" class="social-button" id="google-connect"> <span>Google</span></a>
+          <a href="#" class="social-button" id="facebook-connect"> <span>Facebook</span></a>
+
+          <a class="btn auth-btn" href="/login" role="button">Register</a>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div> -->
+
+<!-- 
+
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/main.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -104,7 +328,7 @@
     <div class="auth-btns-div">
       <a class="btn google-btn" href="/auth/google" role="button">Google</a>
       <a class="btn fb-btn" href="/auth/facebook" role="button">Facebook</a>
-      <!-- <a class="btn auth-btn" href="/login" role="button">Login</a> -->
+       <a class="btn auth-btn" href="/login" role="button">Login</a> 
       <button class="auth-btn" >login</button>
       
     </div>   
@@ -139,7 +363,7 @@
     <div class="auth-btns-div">
       <a class="btn google-btn" href="/auth/google" role="button">Google</a>
       <a class="btn fb-btn" href="/auth/facebook" role="button">Facebook</a>
-      <!-- <a class="btn auth-btn" href="/login" role="button">Register</a> -->
+       <a class="btn auth-btn" href="/login" role="button">Register</a> 
       <button class="auth-reg auth-btn" >Register</button>
       
     </div>
@@ -151,7 +375,7 @@
 <script src="js/main.js"></script>
 </body>
 
-</html>
+</html> -->
 
 
 
@@ -302,4 +526,4 @@
 
 </body>
 
-</html> -->
+</html> --> 
