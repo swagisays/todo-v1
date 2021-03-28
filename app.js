@@ -1,32 +1,30 @@
-require('dotenv').config();
+require('dotenv').config(); // require dotenv npm module for env files
 const express = require('express'); // requiring express
 const bodyParser = require('body-parser'); // requiring body parser
 const mongoose = require('mongoose'); //requiring mongoose for db
-const passportLocalMongoose = require("passport-local-mongoose");
-const session = require('express-session');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook');
-const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");// requiring passport librery for mongoose system
+const session = require('express-session');// express session to make login session
+const GoogleStrategy = require('passport-google-oauth20').Strategy;// google login strategy from passport
+const FacebookStrategy = require('passport-facebook');// passport fb module
+const passport = require("passport");// passport module for auth
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema;// shorthand to initialize schema
 
 const app = express(); // initialize express to app
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({extended: true})); // initialize body parser
 
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
+app.use(session({ // starting session
+  secret: process.env.SECRET, // secret to secure session
+  resave: false, 
   saveUninitialized: false,
   cookie: {
-    expires: new Date(253402300000000)
+    expires: new Date(253402300000000) // making cookie to save forever
   }
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize()); // initialize passport
+app.use(passport.session()); // starting session in passport
 
 // mongoose.connect(process.env.MDB_CONNECT+"/tododb", {// createing tododb data base & running mongodb server on local host
 //   useUnifiedTopology: true,// removing depication WARNING
@@ -40,25 +38,27 @@ mongoose.connect("mongodb://localhost:27017/tododb", { // createing tododb data 
   useNewUrlParser: true // removing depication WARNING
 });
 
-// sending public files to user
-app.use(express.static(__dirname + '/public'));
-app.use('/todo/calender', express.static(__dirname + '/public'));
-app.use('/todo/personal', express.static(__dirname + '/public'));
-app.use('/todo/shoping', express.static(__dirname + '/public'));
 
-app.set('view engine', 'ejs'); // setting up ejs module
 
-const DB = require("./models/index");
 
-passport.use(DB.User.createStrategy());
+app.use(express.static(__dirname + '/public')); // sending public files to user
+app.use('/todo/calender', express.static(__dirname + '/public')); // sending public files to user on a path
+app.use('/todo/personal', express.static(__dirname + '/public')); // sending public files to user on a path
+app.use('/todo/shoping', express.static(__dirname + '/public')); // sending public files to user on a path
 
-passport.serializeUser(function (user, done) {
+app.set('view engine', 'ejs'); // setting up ejs module to views dir
+
+const DB = require("./models/index"); // getting Data base schema from this path
+
+passport.use(DB.User.createStrategy()); // creating an strategy for user schema
+
+passport.serializeUser(function (user, done) { // serializeing user via passport
 
   done(null, user.id);
 
 });
 
-passport.deserializeUser(function (id, done) {
+passport.deserializeUser(function (id, done) { // deserialize user via passport
 
   DB.User.findById(id, function (err, user) {
     done(err, user);
@@ -66,36 +66,76 @@ passport.deserializeUser(function (id, done) {
 
 });
 
-passport.use(new FacebookStrategy({
-    clientID: process.env.FB_APPID,
-    clientSecret: process.env.FB_SECRET,
-    callbackURL: "http://localhost:1705/auth/facebook/todo"
+passport.use(new FacebookStrategy({ // facebook auth
+    clientID: process.env.FB_APPID, // client id from env file
+    clientSecret: process.env.FB_SECRET, // client secret from env file
+    callbackURL: "http://localhost:1705/auth/facebook/todo" // callback url when user authenticated
   },
-  function (accessToken, refreshToken, profile, cb) {
+  function (accessToken, refreshToken, profile, cb) { // getting profile data from fb
 
 
-
-
-    DB.User.findOne({
-      facebookId: profile.id
-    }, function (err, user) {
+    DB.User.findOne({ // finding user in our DB
+      facebookId: profile.id // via their fb Id
+    }, function (err, user) { // if user is allready exist
 
       if (err) {
+
+        console.log(err); // on err log them on console
+
+      } else {
+
+        if (!user) { // if user is not exist in DB
+
+          const user = new DB.User({ // create new user
+            facebookId: profile.id, // saving their fb Id in DB to know them in future
+            name: profile.displayName // save their name in db
+          });
+
+          user.save(); // save user data to DB
+
+          const newUser = require("./register/register"); // going through rigister process
+          newUser(user); // giving user data to register process
+
+          return cb(err, user); 
+
+        } else {
+
+          return cb(err, user);
+
+        }
+      }
+    });
+  }
+));
+
+passport.use(new GoogleStrategy({ // google auth by passport
+    clientID: process.env.GOOGLE_CLIENT_ID, // clientID in env 
+    clientSecret: process.env.GOOGLE_SECRET, // client secret in env
+    callbackURL: "http://localhost:1705/auth/google/todo" // callback url when auth is done
+  },
+  function (accessToken, refreshToken, profile, cb) { // profile data by google
+
+    DB.User.findOne({ // find user in our DB
+      googleId: profile.id // by their googleId
+    }, function (err, user) { // callback fun
+
+      if (err) { // if err log them
 
         console.log(err);
 
       } else {
 
-        if (!user) {
+        if (!user) { // if user not exist create em!
 
-          const user = new DB.User({
-            facebookId: profile.id,
-            name: profile.displayName
+          const user = new DB.User({ // creating new user
+            googleId: profile.id, // saving their google id
+            name: profile.displayName, // saving their username
+            username: profile.email, // save email
+            avtar: profile.photos[0].value // save their avtar in DB
           });
+          user.save(); // saving data to DB
 
-          user.save();
-
-          const newUser = require("./register/register");
+          const newUser = require("./register/register"); // process to register new user
           newUser(user);
 
           return cb(err, user);
@@ -110,57 +150,13 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_SECRET,
-    callbackURL: "http://localhost:1705/auth/google/todo"
-  },
-  function (accessToken, refreshToken, profile, cb) {
 
 
+// home route
 
-    DB.User.findOne({
-      googleId: profile.id
-    }, function (err, user) {
-
-      if (err) {
-
-        console.log(err);
-
-      } else {
-
-        if (!user) {
-
-          const user = new DB.User({
-            googleId: profile.id,
-            name: profile.displayName,
-            username: profile.email,
-            avtar: profile.photos[0].value
-          });
-          user.save();
-
-          const newUser = require("./register/register");
-          newUser(user);
-
-          return cb(err, user);
-
-        } else {
-
-          return cb(err, user);
-
-        }
-      }
-    });
-  }
-));
-
-
-
-
-
-app.get("/", function (req, res) {
-  if (req.isUnauthenticated()) {
-    req.session.calList = [];
+app.get("/", function (req, res) { 
+  if (req.isUnauthenticated()) { // if user is not authenticated 
+    req.session.calList = []; // create list array in login session
     req.session.perList = [];
     req.session.shopList = [];
 
@@ -169,66 +165,70 @@ app.get("/", function (req, res) {
 
 });
 
-app.get('/auth/google', passport.authenticate('google',
+// google auth route
+app.get('/auth/google', passport.authenticate('google', 
 
   {
-    scope: ['profile', 'email']
+    scope: ['profile', 'email'] // define scope to google auth
   }
 
 ));
 
+// google redirect route
 app.get('/auth/google/todo', passport.authenticate('google', {
   failureRedirect: '/'
 }), function (req, res) {
-  // Successful authentication, redirect home.
+  // Successful authentication, redirect todo page.
   res.redirect('/todo');
 
 });
 
+// fb auth route
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
-
+// fb redirect route
 app.get('/auth/facebook/todo', passport.authenticate('facebook', {
-  failureRedirect: '/'
+  failureRedirect: '/' // if auth faile redirect to home route
 }), function (req, res) {
-
+// Successful authentication, redirect todo page.
   res.redirect('/todo');
 
 });
 
+// logout route
 app.get("/logout", function (req, res) {
 
-  req.logout();
-  res.redirect("/");
+  req.logout(); // log out user from session
+  res.redirect("/"); // redirect to home
 
 });
 
 
-let noItem = true;
+let noItem = true; //initialize no item to true as a global var
 
-const sectionArray = ['calender', 'personal', 'shoping'];
+const sectionArray = ['calender', 'personal', 'shoping']; // section array
 
-app.post("/register", function (req, res) {
+app.post("/register", function (req, res) { // register post route
 
-  DB.User.register({
-    username: req.body.username,
-    name: req.body.name,
-    sections: []
-  }, req.body.password, function (err, user) {
+  DB.User.register({ // creating new user
+    username: req.body.username, // save email in username section
+    name: req.body.name, // save user name in user model 
+    sections: [] // creating an empty array of section 
+  }, req.body.password, function (err, user) { // salting password and return user
 
-    if (err) {
+    if (err) { // if any error log it and reffer to home screen
 
       console.log(err);
       res.redirect("/");
 
     } else {
 
-      passport.authenticate("local")(req, res, function () {
+      passport.authenticate("local")(req, res, function () { // authenticat user via passport local
 
-        const newUser = require("./register/register");
-        newUser(user);
+        const newUser = require("./register/register"); // ging through registration precess
+        newUser(user); // like saving list and section
 
-        res.redirect("/todo");
+        res.redirect("/todo"); // redirect to todo route
 
       });
     }
@@ -239,11 +239,9 @@ app.post("/register", function (req, res) {
 
 app.get("/todo", function (req, res) {
 
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()) { // if user is authenticated
 
-
-
-    DB.User.findOne({
+    DB.User.findOne({ // find user by user id
       _id: req.session.passport.user
     }, function (err, user) {
 
@@ -253,13 +251,13 @@ app.get("/todo", function (req, res) {
 
       } else {
 
-        global.calList = [];
+        global.calList = [];// creating global array for sections
         global.perList = [];
         global.shopList = [];
 
-        user.sections.forEach(secId => {
+        user.sections.forEach(secId => { // run for each loop on sections
 
-          DB.Section.findOne({
+          DB.Section.findOne({ // got the section id
             _id: secId
           }, function (err, section) {
 
@@ -271,7 +269,7 @@ app.get("/todo", function (req, res) {
 
                 section.lists.forEach(listId => {
 
-                  DB.List.findOne({
+                  DB.List.findOne({ // create list for section
                     _id: listId
                   }, function (err, list) {
 
@@ -338,7 +336,7 @@ app.get("/todo", function (req, res) {
         });
 
 
-        res.redirect("/todo/calender/today");
+        res.redirect("/todo/calender/today"); // registration process done now redirect to today list
 
       }
     });
@@ -351,9 +349,9 @@ app.get("/todo", function (req, res) {
   }
 });
 
-app.get("/todo/:sec/:listName", function (req, res) {
+app.get("/todo/:sec/:listName", function (req, res) { // list routes
 
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()) { // check if user authenticated
 
     DB.User.findOne({
       _id: req.session.passport.user
@@ -453,7 +451,7 @@ app.get("/todo/:sec/:listName", function (req, res) {
 
                 if (list.itemArr.length === 0) {                 
 
-console.log(time);                   
+                  
                   res.render("home", {
                     sections: sectionArray,
                     calList: calList,
